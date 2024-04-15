@@ -1,0 +1,149 @@
+<!--<div class="container-sm">-->
+<!-- <div *ngIf="searchFormGroup">-->
+<!--  <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchSupplier()" >-->
+<!--     <div class="input-group">-->
+<!--     <label class="input-group-text">Keyword : </label>-->
+<!--     <input type="text" formControlName="keyword" class="form-control">-->
+<!--       <button class="btn btn-info">-->
+<!--         <i class="bi bi-search"></i>-->
+<!--       </button>-->
+<!--     </div>-->
+<!--  </form>-->
+<!-- </div>-->
+<!--  <p class="mt-2">Our Suppliers : </p>-->
+<!--  <ng-container *ngIf="suppliers | async as listSupplier ; else failureOrLoading">-->
+<!--    <div class="row">-->
+<!--    <div class="col-sm-6 p-3" *ngFor="let s of suppliers | async" style="width: 20rem;">-->
+<!--      <div class="card">-->
+<!--        <div class="card-body">-->
+<!--          <h3 class="card-title">name : {{ s.name }}</h3>-->
+<!--          <p class="card-text">description : {{ s.description }}</p>-->
+<!--          <p class="card-text">rating : {{ s.rating }}</p>-->
+<!--          <a href="#" class="btn btn-success">More Details</a>-->
+<!--          <p class="card-text">-->
+<!--            <button class="btn btn-danger" (click)="handleDeleteSupplier(s)">-->
+<!--            <i class="bi bi-trash"></i>-->
+<!--          </button>-->
+<!--          </p>-->
+<!--          <p class="card-text">-->
+<!--            <button class="btn btn-info" (click)="handleEditSupplier(s)">-->
+<!--              <i class="bi bi-file"></i>-->
+<!--            </button>-->
+<!--          </p>-->
+<!--          <p class="card-text">-->
+<!--            <button class="btn btn-info" (click)="handleGetProjectsOfSupplier(s)">-->
+<!--              <i class="bi bi-0-circle"></i>-->
+<!--            </button>-->
+<!--          </p>-->
+<!--          <p class="card-text">-->
+<!--            <button class="btn btn-info" (click)="handleAddProjectToSupplier(s)">-->
+<!--              <i class="bi bi-0-square-fill"></i>-->
+<!--            </button>-->
+<!--          </p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    </div>-->
+<!--  </ng-container>-->
+<!--  <ng-template #failureOrLoading>-->
+<!--    <ng-container *ngIf="errorMessage ; else loading">-->
+<!--      <div class="text-danger">-->
+<!--        {{ errorMessage }}-->
+<!--      </div>-->
+<!--    </ng-container>-->
+<!--    <ng-template #loading>-->
+<!--      Loading...........-->
+<!--    </ng-template>-->
+
+<!--  </ng-template>-->
+<!--</div>-->
+
+
+<!-- <div *ngIf="searchFormGroup" class="w-25">-->
+<!--  <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchSupplier()" >-->
+<!--     <div class="input-group">-->
+<!--     <label class="input-group-text">Nom D'Entreprise : </label>-->
+<!--     <input type="text" formControlName="keyword" class="form-control">-->
+<!--       <button class="btn btn-info">-->
+<!--         <i class="bi bi-search"></i>-->
+<!--       </button>-->
+<!--     </div>-->
+<!--  </form>-->
+<!-- </div>-->
+<div class="container w-75 mt-2">
+  <div *ngIf="searchFormGroup" class="w-50">
+    <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchSupplier()" >
+      <div class="input-group">
+        <label class="input-group-text">Nom D'Entreprise : </label>
+        <input type="text" formControlName="keyword" class="form1">
+        <button class="button2">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="filterByRatingFormGroup" class="w-50">
+    <form [formGroup]="filterByRatingFormGroup" (ngSubmit)="handleFilterSuppliersByRating()" >
+      <div class="input-group">
+        <label class="input-group-text">Min Rating : </label>
+        <input type="number" formControlName="minRating" class="form1">
+        <button class="button2">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body text-center">
+          <h5 class="card-title m-b-0">Nos Fournisseurs</h5>
+        </div>
+        <ng-container *ngIf="suppliers | async as listSupplier ; else failureOrLoading">
+        <div class="table-responsive">
+          <table class="table border-black" >
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Nom D'Entreprise</th>
+              <th scope="col">Rating</th>
+              <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody class="customtable" >
+            <tr *ngFor="let s of suppliers | async">
+              <td>{{s.id}}</td>
+              <td><a (click)="handleGetSupplierDetails(s)">{{s.name}}</a></td>
+              <td *ngIf="s.rating != 0 ;else missingValue"><div [style.color]="s.rating>=80 ? 'green' : s.rating>=50 ? 'orange' : 'red'"><b>{{s.rating}}</b></div></td>
+              <td>
+                <i class="bi bi-plus-circle m-2" (click)="handleAddProjectToSupplier(s)"></i>
+                <i class="bi bi-arrow-right-square m-2" (click)="handleGetProjectsOfSupplier(s)"></i>
+                <i class="bi bi-pen m-2" (click)="handleEditSupplier(s)"></i>
+                <i class="bi bi-trash m-2" (click)="handleDeleteSupplier(s)"></i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        </ng-container>
+        <button class="button1 w-25" routerLink="/new-supplier"> Ajouter un fournisseur</button>
+      </div>
+    </div>
+  </div>
+  <ng-template #failureOrLoading>
+    <ng-container *ngIf="errorMessage ; else loading">
+      <div class="text-danger">
+        {{ errorMessage }}
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      Loading...........
+    </ng-template>
+  </ng-template>
+</div>
+<ng-template #missingValue>
+  <td>N/A</td>
+</ng-template>

@@ -1,0 +1,27 @@
+<p>new-evaluation works!</p>
+<div class="container">
+  <div class="card col-md-6 offset-3 mt-2">
+    <div class="card-header">Add A Project</div>
+    <div class="card-body">
+      <form [formGroup]="newEvaluationFormGroup" (ngSubmit)="handleAddEvaluation()"  >
+        <div class="mb-3">
+          <label class="form-label">Performance technique : </label>
+          <input type="number" formControlName="quest1" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Maitrise des couts : </label>
+          <input type="number" formControlName="quest2" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Respect des delais : </label>
+          <input type="number" formControlName="quest3" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">resolution des problemes : </label>
+          <input type="number" formControlName="quest4" class="form-control">
+        </div>
+        <button [disabled]="!newEvaluationFormGroup.valid"  class="btn btn-info">Save</button>
+      </form>
+    </div>
+  </div>
+</div>

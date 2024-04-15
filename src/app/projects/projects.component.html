@@ -1,0 +1,109 @@
+<p>projects works!</p>
+<!--{{projects | async | json}}-->
+
+<!--<p class="mt-2">Projects of supplier : {{(projects|async)?.at(0)?.supplierName}}  </p>-->
+<!--<ng-container *ngIf="projects | async as projectList ; else failureOrLoading">-->
+<!--  <div class="row">-->
+<!--    <div class="col-sm-6 p-3" *ngFor="let p of projects | async" style="width: 20rem;">-->
+<!--      <div class="card">-->
+<!--        <div class="card-body">-->
+<!--          <h3 class="card-title">n_contract : {{ p.n_contract }}</h3>-->
+<!--          <p class="card-text">description : {{ p.description }}</p>-->
+<!--          <p class="card-text">starts at : {{ p.startsAt }}</p>-->
+<!--          <p class="card-text">ends at : {{ p.endsAt }}</p>-->
+<!--          <p class="card-text"> manager : {{ p.projectManagerName }}</p>-->
+<!--          evaluated at : <p class="card-text" *ngIf="p.evaluation_date ; else missingValue">  {{ p.evaluation_date }}</p>-->
+<!--         <br> evaluation : <p class="card-text" *ngIf="p.evaluation_score ; else missingValue">{{ p.evaluation_score }}</p>-->
+<!--          <br>  evaluation_id : <p class="card-text" *ngIf="p.evaluationId ; else missingValue">{{ p.evaluationId }}</p>-->
+<!--          <br>-->
+<!--          <a href="#" class="btn btn-success">More Details</a>-->
+<!--          <p class="card-text">-->
+<!--            <button class="btn btn-info" >-->
+<!--              <i class="bi bi-file"></i>-->
+<!--            </button>-->
+<!--          </p>-->
+<!--          <p class="card-text" (click)="HandleGetDetailsOfEvaluation(p)">-->
+<!--            <button class="btn btn-info" >-->
+<!--              <i class="bi bi-0-circle"></i>-->
+<!--            </button>-->
+<!--          </p>-->
+<!--          <p class="card-text">-->
+<!--            <button class="btn btn-danger" (click)="handleDeleteProject(p)">-->
+<!--              <i class="bi bi-trash"></i>-->
+<!--            </button>-->
+<!--          </p>-->
+<!--          <p class="card-text">-->
+<!--            <button class="btn btn-danger" (click)="handleAddEvaluationToProject(p)">-->
+<!--              <i class="bi bi-4-square-fill"></i>-->
+<!--            </button>-->
+<!--          </p>-->
+<!--          <p class="card-text">-->
+<!--            <button class="btn btn-danger" (click)="handleDeleteEvaluation(p)">-->
+<!--              <i class="bi bi-trash3-fill"></i>-->
+<!--            </button>-->
+<!--          </p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</ng-container>-->
+<!--<ng-template #failureOrLoading>-->
+<!--  <ng-container *ngIf="errorMessage ; else loading">-->
+<!--    <div class="text-danger">-->
+<!--      {{ errorMessage }}-->
+<!--    </div>-->
+<!--  </ng-container>-->
+<!--  <ng-template #loading>-->
+<!--    Loading...........-->
+<!--  </ng-template>-->
+<div class="container w-75 mt-2">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body text-center">
+          <h5 class="card-title m-b-0">Projets du fournisseur : {{(projects|async)?.at(0)?.supplierName}}</h5>
+        </div>
+        <ng-container *ngIf="projects | async as projectList ; else failureOrLoading">
+          <div class="table-responsive">
+            <table class="table border-black" >
+              <thead class="thead-light">
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Numero de Contract</th>
+                <th scope="col">Evaluation</th>
+                <th scope="col">Actions</th>
+              </tr>
+              </thead>
+              <tbody class="customtable" >
+              <tr *ngFor="let p of projects | async">
+                <td>{{p.id}}</td>
+                <td>{{p.n_contract}}</td>
+                <td  *ngIf="p.evaluation_score ; else missingValue">{{p.evaluation_score}}</td>
+                <td>
+                  <i class="bi bi-pencil-square m-2" (click)="handleAddEvaluationToProject(p)"></i>
+                  <i class="bi bi-arrow-right-square m-2" (click)="HandleGetDetailsOfEvaluation(p)"></i>
+                  <i class="bi bi-trash3 m-2" (click)="handleDeleteProject(p)"></i>
+                  <i class="bi bi-recycle m-2" (click)="handleDeleteEvaluation(p)"></i>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <ng-template #failureOrLoading>
+    <ng-container *ngIf="errorMessage ; else loading">
+      <div class="text-danger">
+        {{ errorMessage }}
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      Loading...........
+    </ng-template>
+  </ng-template>
+</div>
+<ng-template #missingValue>
+  <td>N/A</td>
+</ng-template>

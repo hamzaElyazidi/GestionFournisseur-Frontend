@@ -1,0 +1,22 @@
+<p>edit-supplier works!</p>
+<input value="{{EditSupplierFormGroup.value | json}}" type="hidden">
+
+<div class="container">
+  <div class="card col-md-6 offset-3 mt-2">
+    <div class="card-header">Edit A Supplier</div>
+
+    <div class="card-body">
+      <form [formGroup]="EditSupplierFormGroup" (ngSubmit)="handleUpdateSupplier()"  >
+        <div class="mb-3">
+          <label class="form-label">Name : </label>
+          <input type="text" formControlName="name" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description : </label>
+          <input type="text" formControlName="description" class="form-control">
+        </div>
+        <button [disabled]="!EditSupplierFormGroup.valid"  class="btn btn-info">Save</button>
+      </form>
+    </div>
+  </div>
+</div>

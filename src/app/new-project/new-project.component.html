@@ -1,0 +1,35 @@
+<p>new-project works!</p>
+<div class="container">
+  <div class="card col-md-6 offset-3 mt-2">
+    <div class="card-header">Add A Project</div>
+    <div class="card-body">
+      <form [formGroup]="newProjectFormGroup" (ngSubmit)="handleSaveProject()"  >
+        <div class="mb-3">
+          <label class="form-label">N_Contract : </label>
+          <input type="text" formControlName="n_contract" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description : </label>
+          <input type="text" formControlName="description" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Starts At : </label>
+          <input type="date" formControlName="startsAt" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">EndsAt : </label>
+          <input type="date" formControlName="endsAt" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Supplier Name : </label>
+          <input type="text" formControlName="supplierName" class="form-control" value="{{supplierName}}" readonly>
+        </div>
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">Project Manager Name : </label>-->
+<!--          <input type="text" formControlName="projectManagerName" class="form-control">-->
+<!--        </div>-->
+        <button [disabled]="!newProjectFormGroup.valid"  class="btn btn-info">Save</button>
+      </form>
+    </div>
+  </div>
+</div>
