@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SupplierService} from '../services/supplier.service'
 import {catchError, map, Observable, throwError} from "rxjs";
 import {Supplier} from "../model/supplier.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
-
+import { MatPaginator } from '@angular/material/paginator'; // Import MatPaginator
 @Component({
   selector: 'app-suppliers',
   templateUrl: './suppliers.component.html',
@@ -15,7 +15,10 @@ export class SuppliersComponent implements OnInit {
   errorMessage!: string;
   searchFormGroup: FormGroup | undefined
   filterByRatingFormGroup: FormGroup | undefined;
-
+//
+  // ViewChild to access paginator in the template
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  //
   constructor(private supplierService: SupplierService, private fb: FormBuilder , private router:Router) {
   }
 

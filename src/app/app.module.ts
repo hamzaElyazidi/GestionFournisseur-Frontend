@@ -18,7 +18,7 @@ import { FooterComponent } from './footer/footer.component';
 import { SupplierDetailsComponent } from './supplier-details/supplier-details.component';
 import { SupplierChart1Component } from './supplier-details/supplier-shart1/supplier-chart1.component';
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
-export function kcFactory(kcService : KeycloakService)
+export function initializeKeycloak(kcService : KeycloakService)
 {
   return ()=>{
     kcService.init({
@@ -29,8 +29,9 @@ export function kcFactory(kcService : KeycloakService)
       },
       initOptions : {
         onLoad : "check-sso" ,
-        checkLoginIframe : true
-      }
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html'
+            }
     })
   }
 }
@@ -55,10 +56,10 @@ export function kcFactory(kcService : KeycloakService)
     HttpClientModule,
     ReactiveFormsModule,
     SupplierChart1Component,
-    KeycloakAngularModule
+   KeycloakAngularModule
   ],
   providers: [
-    {provide : APP_INITIALIZER , deps :[KeycloakService],useFactory:kcFactory,multi:true}
+     {provide : APP_INITIALIZER , deps :[KeycloakService],useFactory:initializeKeycloak,multi:true}
   ],
   bootstrap: [AppComponent]
 })

@@ -8,8 +8,10 @@ import {EvaluationsComponent} from "./evaluations/evaluations.component";
 import {NewProjectComponent} from "./new-project/new-project.component";
 import {NewEvaluationComponent} from "./new-evaluation/new-evaluation.component";
 import {SupplierDetailsComponent} from "./supplier-details/supplier-details.component";
+import {AuthGuard} from "./guards/auth.guard";
 const routes: Routes = [
-  {path : "suppliers" , component : SuppliersComponent} ,
+  //{path: '', component: SuppliersComponent,canActivate:[AuthGuard],data:{roles:['USER']} },
+  {path : "suppliers" , component : SuppliersComponent ,canActivate:[AuthGuard],data:{roles:['USER']}} ,
   {path : "new-supplier" , component : NewSupplierComponent } ,
   {path : "supplier-details/:supplierId" , component : SupplierDetailsComponent },
   {path : "editSupplier/:id" , component : EditSupplierComponent } ,
