@@ -18,6 +18,7 @@ import { FooterComponent } from './footer/footer.component';
 import { SupplierDetailsComponent } from './supplier-details/supplier-details.component';
 import { SupplierChart1Component } from './supplier-details/supplier-shart1/supplier-chart1.component';
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
+import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 export function initializeKeycloak(kcService : KeycloakService)
 {
   return ()=>{
