@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {ProjectService} from "../services/project.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {EvaluationService} from "../services/evaluation.service";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {SupplierDetailsDialogComponent} from "../supplier-details-dialog/supplier-details-dialog.component";
 
 @Component({
   selector: 'app-supplier-details',
@@ -10,11 +12,17 @@ import {EvaluationService} from "../services/evaluation.service";
 })
 export class SupplierDetailsComponent implements OnInit{
   supplierId:string
-  constructor(private projectService : ProjectService , private router : Router , private route : ActivatedRoute , private evaluationService:EvaluationService)   {
-    this.supplierId = this.route.snapshot.params['supplierId'];
+  constructor(private projectService : ProjectService , private router : Router , private route : ActivatedRoute , private evaluationService:EvaluationService,
+              public dialogRef: MatDialogRef<SupplierDetailsComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: { supplierId: string }
+  )   {
+   // this.supplierId = this.route.snapshot.params['supplierId'];
+    this.supplierId = data.supplierId
   }
 
   ngOnInit(): void {
     }
-
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
 }

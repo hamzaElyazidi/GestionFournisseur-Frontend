@@ -1,0 +1,36 @@
+<p>new-evaluation works!</p>
+<div class="container">
+  <div class="card col-md-6 offset-3 mt-2">
+    <div class="card-header">Add A Project</div>
+    <div class="card-body">
+      <form [formGroup]="newUserFormGroup" (ngSubmit)="handleCreateUser()"  >
+        <div class="mb-3">
+          <label class="form-label">username : </label>
+          <input type="text" formControlName="username" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">password : </label>
+          <input type="password" formControlName="password" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">first name  : </label>
+          <input type="text" formControlName="first_name" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">last name : </label>
+          <input type="text" formControlName="last_name" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">job title : </label>
+          <input type="text" formControlName="job_title" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">email : </label>
+          <input type="text" formControlName="mail" class="form-control">
+        </div>
+
+        <button [disabled]="!newUserFormGroup.valid"  class="btn btn-info">Save</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -19,6 +19,14 @@ import { SupplierDetailsComponent } from './supplier-details/supplier-details.co
 import { SupplierChart1Component } from './supplier-details/supplier-shart1/supplier-chart1.component';
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
+import KeycloakAdminClient from 'keycloak-admin';
+import {SupplierShart2Component} from "./supplier-details/supplier-shart2/supplier-shart2.component";
+import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} from "@angular/material/stepper";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButton} from "@angular/material/button";
+import {MatInput} from "@angular/material/input";
+import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
 export function initializeKeycloak(kcService : KeycloakService)
 {
   return ()=>{
@@ -49,7 +57,7 @@ export function initializeKeycloak(kcService : KeycloakService)
     NewProjectComponent,
     NewEvaluationComponent,
     FooterComponent,
-    SupplierDetailsComponent
+    SupplierDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +65,21 @@ export function initializeKeycloak(kcService : KeycloakService)
     HttpClientModule,
     ReactiveFormsModule,
     SupplierChart1Component,
-   KeycloakAngularModule
+    KeycloakAngularModule,
+    MatPaginatorModule,
+    SupplierShart2Component,
+    MatStepper,
+    MatStep,
+    MatLabel,
+    MatFormField,
+    BrowserAnimationsModule,
+    MatButton,
+    MatStepLabel,
+    MatInput,
+    MatStepperNext,
+    MatStepperPrevious,
+    MatDialogContent,
+    MatDialogActions,
   ],
   providers: [
      {provide : APP_INITIALIZER , deps :[KeycloakService],useFactory:initializeKeycloak,multi:true}

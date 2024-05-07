@@ -1,0 +1,45 @@
+<p>users works!</p>
+<div class="container w-75 mt-2">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body text-center">
+        </div>
+        <ng-container *ngIf="managers | async as projectList ; else failureOrLoading">
+          <div class="table-responsive">
+            <table class="table border-black" >
+              <thead class="thead-light">
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody class="customtable" >
+              <tr *ngFor="let m of managers | async">
+                <td>{{m.id}}</td>
+                <td>{{m.first_name}}</td>
+                <td>{{m.password}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <ng-template #failureOrLoading>
+    <ng-container *ngIf="errorMessage ; else loading">
+      <div class="text-danger">
+        {{ errorMessage }}
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      Loading...........
+    </ng-template>
+  </ng-template>
+</div>
+<ng-template #missingValue>
+  <td>N/A</td>
+</ng-template>

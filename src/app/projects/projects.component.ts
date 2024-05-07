@@ -34,7 +34,6 @@ export class ProjectsComponent implements OnInit {
   }
   handleAddEvaluationToProject(p: Project) {
    this.router.navigateByUrl("/evaluations/new-evaluation/"+p.id)
-
   }
   handleDeleteProject(p: Project) {
     this.projectService.deleteProject(p.id).subscribe({

@@ -1,2 +1,20 @@
-<p>supplier-details works! for supplier with id : {{supplierId}}</p>
-<app-supplier-shart1 [supplierId]="supplierId" ></app-supplier-shart1>
+<!--<p>supplier-details works! for supplier with id : {{supplierId}}</p>-->
+<!--<app-supplier-shart1 [supplierId]="supplierId" ></app-supplier-shart1>-->
+<!--<app-supplier-shart2 [supplierId]="supplierId" ></app-supplier-shart2>-->
+
+<div class="modal-dialog modal-fullscreen">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Supplier Details</h5>
+      <button type="button" class="btn-close" (click)="closeDialog()"></button>
+    </div>
+    <div class="modal-body">
+      <p>supplier-details works! for supplier with id : {{supplierId}}</p>
+      <app-supplier-shart1 [supplierId]="supplierId"></app-supplier-shart1>
+      <app-supplier-shart2 [supplierId]="supplierId"></app-supplier-shart2>
+    </div>
+  </div>
+</div>
+
+
+

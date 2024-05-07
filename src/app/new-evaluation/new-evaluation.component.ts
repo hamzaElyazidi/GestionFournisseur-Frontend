@@ -29,19 +29,19 @@ export class NewEvaluationComponent implements OnInit{
     const formValues = this.newEvaluationFormGroup.value
     let score1 : Score = {
       question_id : 1 ,
-      score : formValues['quest1'],
+      score : formValues['question1'],
     }
     let score2: Score = {
       question_id : 2 ,
-      score : formValues['quest2'],
+      score : formValues['question2'],
     }
     let score3 : Score = {
       question_id : 3 ,
-      score : formValues['quest3'],
+      score : formValues['question3'],
     }
     let score4 : Score = {
       question_id : 4 ,
-      score : formValues['quest4'],
+      score : formValues['question4'],
     }
     let scores : Score[] = [score1,score2,score3,score4]
     let evaluation : Evaluation = {

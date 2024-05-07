@@ -9,16 +9,25 @@ import {NewProjectComponent} from "./new-project/new-project.component";
 import {NewEvaluationComponent} from "./new-evaluation/new-evaluation.component";
 import {SupplierDetailsComponent} from "./supplier-details/supplier-details.component";
 import {AuthGuard} from "./guards/auth.guard";
+import {HommeComponent} from "./homme/homme.component";
+import {AppComponent} from "./app.component";
+import {MyProjectsComponent} from "./my-projects/my-projects.component";
+import {CreateUSerComponent} from "./create-user/create-user.component";
+import {UsersComponent} from "./users/users.component";
 const routes: Routes = [
-  //{path: '', component: SuppliersComponent,canActivate:[AuthGuard],data:{roles:['USER']} },
+ // {path: '', component: AppComponent,canActivate:[AuthGuard],data:{roles:['USER']} },
   {path : "suppliers" , component : SuppliersComponent ,canActivate:[AuthGuard],data:{roles:['USER']}} ,
   {path : "new-supplier" , component : NewSupplierComponent } ,
   {path : "supplier-details/:supplierId" , component : SupplierDetailsComponent },
   {path : "editSupplier/:id" , component : EditSupplierComponent } ,
-  {path : "projects/:supplierId" , component : ProjectsComponent } ,
+  {path : "projects/:supplierId" , component : ProjectsComponent,canActivate:[AuthGuard],data:{roles:['USER']} } ,
   {path : "evaluations/:evaluationId" , component : EvaluationsComponent } ,
   {path : "new-project/:supplierId" , component : NewProjectComponent } ,
   {path : "evaluations/new-evaluation/:projectId" , component : NewEvaluationComponent },
+  {path : "my-projects" , component : MyProjectsComponent },
+  {path : "create-user" , component : CreateUSerComponent },
+  {path : "users" , component : UsersComponent},
+
 ];
 
 @NgModule({

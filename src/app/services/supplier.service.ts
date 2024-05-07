@@ -7,6 +7,7 @@ import {Supplier} from "../model/supplier.model";
 })
 export class SupplierService {
 
+
   backendHost:string="http://localhost:8009"
   constructor(private http:HttpClient) {
   }

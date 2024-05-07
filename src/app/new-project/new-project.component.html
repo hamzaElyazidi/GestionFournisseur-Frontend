@@ -1,35 +1,78 @@
-<p>new-project works!</p>
-<div class="container">
-  <div class="card col-md-6 offset-3 mt-2">
-    <div class="card-header">Add A Project</div>
-    <div class="card-body">
-      <form [formGroup]="newProjectFormGroup" (ngSubmit)="handleSaveProject()"  >
-        <div class="mb-3">
-          <label class="form-label">N_Contract : </label>
-          <input type="text" formControlName="n_contract" class="form-control">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Description : </label>
-          <input type="text" formControlName="description" class="form-control">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Starts At : </label>
-          <input type="date" formControlName="startsAt" class="form-control">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">EndsAt : </label>
-          <input type="date" formControlName="endsAt" class="form-control">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Supplier Name : </label>
-          <input type="text" formControlName="supplierName" class="form-control" value="{{supplierName}}" readonly>
-        </div>
+<!--<p>new-project works!</p>-->
+<!--<div class="container">-->
+<!--  <div class="card col-md-6 offset-3 mt-2">-->
+<!--    <div class="card-header">Add A Project</div>-->
+<!--    <div class="card-body">-->
+<!--      <form [formGroup]="newProjectFormGroup" (ngSubmit)="handleSaveProject()"  >-->
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">N_Contract : </label>-->
+<!--          <input type="text" formControlName="n_contract" class="form-control">-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">Description : </label>-->
+<!--          <input type="text" formControlName="description" class="form-control">-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">Starts At : </label>-->
+<!--          <input type="date" formControlName="startsAt" class="form-control">-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">EndsAt : </label>-->
+<!--          <input type="date" formControlName="endsAt" class="form-control">-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">Supplier Name : </label>-->
+<!--          <input type="text" formControlName="supplierName" class="form-control" value="{{supplierName}}" readonly>-->
+<!--        </div>-->
 <!--        <div class="mb-3">-->
 <!--          <label class="form-label">Project Manager Name : </label>-->
-<!--          <input type="text" formControlName="projectManagerName" class="form-control">-->
+<!--          <input type="text" formControlName="projectManagerName" class="form-control" value="{{projectManagerName}}" readonly>-->
 <!--        </div>-->
-        <button [disabled]="!newProjectFormGroup.valid"  class="btn btn-info">Save</button>
-      </form>
+<!--        <div class="mb-3">-->
+<!--          <p>supplier : {{supplierName}}</p>-->
+<!--        </div>-->
+<!--        <button [disabled]="!newProjectFormGroup.valid"  class="btn btn-info">Save</button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<p>here</p>
+<button mat-raised-button class="toggle-linear-button" (click)="isLinear = !isLinear">
+  {{ !isLinear ? 'Enable linear mode' : 'Disable linear mode' }}
+</button>
+
+<mat-vertical-stepper [linear]="isLinear" #stepper class="custom-stepper">
+  <mat-step [stepControl]="firstFormGroup" class="custom-step">
+    <ng-template matStepLabel>Fill out your name</ng-template>
+    <form [formGroup]="firstFormGroup" class="form-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+      </mat-form-field>
+      <div class="button-container">
+        <button mat-button matStepperNext class="next-button">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" class="custom-step">
+    <ng-template matStepLabel>Fill out your address</ng-template>
+    <form [formGroup]="secondFormGroup" class="form-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+      </mat-form-field>
+      <div class="button-container">
+        <button mat-button matStepperPrevious class="back-button">Back</button>
+        <button mat-button matStepperNext class="next-button">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step class="custom-step">
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div class="button-container">
+      <button mat-button matStepperPrevious class="back-button">Back</button>
+      <button mat-button (click)="stepper.reset()" class="reset-button">Reset</button>
     </div>
-  </div>
-</div>
+  </mat-step>
+</mat-vertical-stepper>

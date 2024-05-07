@@ -6,19 +6,19 @@
       <form [formGroup]="newEvaluationFormGroup" (ngSubmit)="handleAddEvaluation()"  >
         <div class="mb-3">
           <label class="form-label">Performance technique : </label>
-          <input type="number" formControlName="quest1" class="form-control">
+          <input type="number" formControlName="question1" class="form-control">
         </div>
         <div class="mb-3">
           <label class="form-label">Maitrise des couts : </label>
-          <input type="number" formControlName="quest2" class="form-control">
+          <input type="number" formControlName="question2" class="form-control">
         </div>
         <div class="mb-3">
           <label class="form-label">Respect des delais : </label>
-          <input type="number" formControlName="quest3" class="form-control">
+          <input type="number" formControlName="question3" class="form-control">
         </div>
         <div class="mb-3">
           <label class="form-label">resolution des problemes : </label>
-          <input type="number" formControlName="quest4" class="form-control">
+          <input type="number" formControlName="question4" class="form-control">
         </div>
         <button [disabled]="!newEvaluationFormGroup.valid"  class="btn btn-info">Save</button>
       </form>

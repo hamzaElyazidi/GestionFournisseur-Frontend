@@ -1,0 +1,36 @@
+.custom-stepper {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.custom-step {
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+}
+
+.form-container {
+  margin-bottom: 24px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.next-button,
+.back-button,
+.reset-button {
+  background-color: #1976d2;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.next-button:hover,
+.back-button:hover,
+.reset-button:hover {
+  background-color: #1565c0;
+}
