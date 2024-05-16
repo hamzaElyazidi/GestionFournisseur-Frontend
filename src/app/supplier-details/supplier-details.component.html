@@ -2,19 +2,180 @@
 <!--<app-supplier-shart1 [supplierId]="supplierId" ></app-supplier-shart1>-->
 <!--<app-supplier-shart2 [supplierId]="supplierId" ></app-supplier-shart2>-->
 
-<div class="modal-dialog modal-fullscreen">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Supplier Details</h5>
-      <button type="button" class="btn-close" (click)="closeDialog()"></button>
+<!--<p>{{(supplier | async)?.name}}</p>-->
+<!--<p>{{(supplier | async)?.rating}}</p>-->
+<!--&lt;!&ndash;<p>{{(projects | async)?.at(0)}}</p>&ndash;&gt;-->
+<html data-bs-theme="light" lang="en" xmlns:width="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+  <title></title>
+</head>
+
+<body id="page-top">
+<div id="wrapper" class="p-3" style="background-color:ghostwhite">
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <div class="container-fluid" style="margin-top: 50px;">
+        <div class="d-sm-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-dark mb-0">{{ (supplier|async)?.name }}</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" (click)="handleGenerateRaport()"><i class="fas fa-download fa-sm text-white-50"></i>Download Supplier Info As Pdf</a>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="card shadow border-start-info py-2" >
+              <div class="card-body">
+                <h4 class="card-title">Description</h4>
+                <p class="card-text">{{ (supplier|async)?.description }}</p>
+                <p class="card-text">Telephone : {{ (supplier|async)?.phone }}</p>
+                <p class="card-text">Email : {{ (supplier|async)?.email }}</p>
+                <p class="card-text">Web site : {{ (supplier|async)?.website }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card shadow border-start-info py-2">
+              <div class="card-body">
+                <h4 class="card-title">Top 5 Projects</h4>
+                <ng-container *ngIf="projects | async as listProjects ; else failureOrLoading">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                    <tr >
+                      <th>N° Contrat</th>
+                      <th>Score</th>
+                      <th>Chef de projet</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let p of listProjects.slice(0,5)">
+                      <td> <div (click)="handleGetDetailsOfProject(p)" class="link-text">{{ p.n_contract }}</div></td>
+                      <td>
+                        <div [style.color]="p.evaluation_score >= 80 ? 'green' : p.evaluation_score >= 50 ? 'orange' : 'red'">
+                          <b>{{ p.evaluation_score | number:'1.0-1'}}</b></div></td>
+                      <td>{{ p.projectManagerName }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-xl-3 mb-4 mt-4">
+            <div class="card shadow border-start-primary py-2">
+              <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                  <div class="col me-2">
+                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Nombre Des Projets : </span></div>
+                    <div class="text-dark fw-bold h5 mb-0"><span>{{(supplier|async)?.number_of_projects}}</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-3 mb-4 mt-4 ">
+            <div class="card shadow border-start-primary py-2">
+              <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                  <div class="col me-2">
+                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Secteur D'activité : </span></div>
+                    <div class="text-dark fw-bold h5 mb-0"><span>{{ convertEnum((supplier|async)?.sector)}}</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-3 mb-4 mt-4">
+            <div class="card shadow border-start-primary py-2">
+              <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                  <div class="col me-2">
+                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Date Du Premier Projet : </span></div>
+                    <div class="text-dark fw-bold h5 mb-0"><span>{{(projects|async)?.at(0)?.startsAt | date: 'YYYY-MM-dd'}}</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-md-6 col-xl-3 mb-4 mt-4">
+            <div class="card shadow border-start-info py-2">
+              <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                  <div class="col me-2">
+                    <div class="text-uppercase text-info fw-bold text-xs mb-1"><span>RATING</span></div>
+                    <div class="row g-0 align-items-center">
+                      <div class="col-auto">
+                        <div class="text-dark fw-bold h5 mb-0 me-3"><span>{{(supplier|async)?.rating | number:'1.0-1'}}</span></div>
+                      </div>
+                      <div class="col">
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-info" aria-valuemin="0" aria-valuemax="100"  [style.width.%]="(supplier | async)?.rating"><span class="visually-hidden">50%</span></div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row p-4">
+          <div class="col" >
+            <div class="card shadow border-start-info py-2">
+              <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                  <div class="col me-2">
+            <div>
+              <app-supplier-shart1 [supplierId]="supplierId" ></app-supplier-shart1>
+            </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col" >
+            <div class="card shadow border-start-info py-2">
+              <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                  <div class="col me-2">
+                    <div>
+                      <app-supplier-shart2 [supplierId]="supplierId" ></app-supplier-shart2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col" style="width: 100%;" >-->
+<!--            <div>-->
+<!--              <app-supplier-shart2 [supplierId]="supplierId" ></app-supplier-shart2>-->
+<!--            </div>-->
+<!--          </div>-->
+        </div>
+      </div>
     </div>
-    <div class="modal-body">
-      <p>supplier-details works! for supplier with id : {{supplierId}}</p>
-      <app-supplier-shart1 [supplierId]="supplierId"></app-supplier-shart1>
-      <app-supplier-shart2 [supplierId]="supplierId"></app-supplier-shart2>
-    </div>
-  </div>
+  </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
 </div>
+</body>
 
-
-
+</html>
+<ng-template #failureOrLoading>
+  <ng-container *ngIf="errorMessage ; else loading">
+    <div class="text-danger">
+      {{ errorMessage }}
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    Loading...........
+  </ng-template>
+</ng-template>

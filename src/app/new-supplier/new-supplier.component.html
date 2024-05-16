@@ -16,18 +16,95 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--</div>-->
-<div class="form-box mt-5">
-  <h1></h1>
-  <p>Veuillez Saisir Les Informations Du Fournisseur</p>
-  <form [formGroup]="newSupplierFormGroup" (ngSubmit)="handleSaveSupplier()" >
-    <div class="form-group">
-      <label class="mb-3" for="name">Nom D'Entreprise : </label>
-      <input class="form-control mb-4" id="name" type="text" name="Name" formControlName="name" >
+
+
+<!--<div class="form-box mt-5">-->
+<!--  <h1></h1>-->
+<!--  <p>Veuillez Saisir Les Informations Du Fournisseur</p>-->
+<!--  <form [formGroup]="newSupplierFormGroup" (ngSubmit)="handleSaveSupplier()" >-->
+<!--    <div class="form-group">-->
+<!--      <label class="mb-3" for="name">Nom D'Entreprise : </label>-->
+<!--      <input class="form-control mb-4" id="name" type="text" name="Name" formControlName="name" >-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--      <label for="description" class="mb-3">Description :  </label>-->
+<!--      <textarea class="form-control mb-4" id="description" name="description" formControlName="description"></textarea>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--      <label for="category">Secteur d'activité : </label>-->
+<!--      <select class="form-control" id="category" formControlName="sector">-->
+<!--        <option *ngFor="let s of industrySectorArray" [value]="s">{{ convertEnum(s) }}</option>-->
+<!--      </select>-->
+<!--    </div>-->
+<!--    <button [disabled]="!newSupplierFormGroup.valid"  class="btn btn-success mt-1">Enregistrer</button>-->
+<!--</form>-->
+<!--</div>-->
+
+
+
+<html data-bs-theme="light" lang="en" style>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+  <title></title>
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <div class="container-fluid" style="margin-top: 30px;">
+        <h3 class="text-dark mb-4">Veuillez saisir les informations du fournisseur</h3>
+        <div class="row mb-3">
+          <div class="col-lg-8">
+            <div class="row mb-3 d-none">
+            </div>
+          </div>
+          <div class="col-xl-11 p-5 w-75" style="margin-left: 20px;">
+            <div class="card shadow mb-3">
+              <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold">Fournisseur Info</p>
+              </div>
+              <div class="card-body">
+                <form [formGroup]="newSupplierFormGroup" (ngSubmit)="handleSaveSupplier()">
+                  <div class="row w-50">
+                    <div>
+                      <div class="mb-3"><label class="form-label"><strong>Nom</strong></label><input class="form-control" type="text" formControlName="name"/></div>
+                    </div>
+                    <div>
+                      <div class="mb-3"><label class="form-label"><strong>Phone number</strong></label><input class="form-control" type="text" formControlName="phone"/></div>
+                    </div>
+                    <div>
+                      <div class="mb-3"><label class="form-label"><strong>Website</strong></label><input class="form-control" type="text" formControlName="website"/></div>
+                    </div>
+                  </div>
+                  <div class="row w-50" >
+                    <div class="">
+                      <div class="mb-3"><label class="form-label"><strong>E-mail</strong></label><input class="form-control" type="text" formControlName="mail"/></div>
+                    </div>
+                    <div class="">
+                      <label for="category"><strong>Secteur d'activité</strong> </label>
+                      <select class="form-control" id="category" formControlName="sector">-->
+                        <option *ngFor="let s of industrySectorArray" [value]="s">{{ convertEnum(s) }}</option>
+                      </select>
+                    </div>
+
+                    <div class="">
+                      <div class="mb-3"><label class="form-label"><strong>Description</strong></label><textarea class="form-control" formControlName="description"></textarea></div>
+                    </div>
+                  </div>
+                  <div class="mb-3"></div>
+                 <button class="btn btn-primary btn-sm" [disabled]="!newSupplierFormGroup.valid">Save Fournisseur</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="description" class="mb-3">Description :  </label>
-      <textarea class="form-control mb-4" id="description" name="description" formControlName="description"></textarea>
-    </div>
-    <button [disabled]="!newSupplierFormGroup.valid"  class="btn btn-success mt-1">Enregistrer</button>
-</form>
+  </div>
 </div>
+</body>
+
+</html>

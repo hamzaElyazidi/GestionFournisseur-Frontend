@@ -1,6 +1,4 @@
-<p>projects works!</p>
 <!--{{projects | async | json}}-->
-
 <!--<p class="mt-2">Projects of supplier : {{(projects|async)?.at(0)?.supplierName}}  </p>-->
 <!--<ng-container *ngIf="projects | async as projectList ; else failureOrLoading">-->
 <!--  <div class="row">-->
@@ -56,54 +54,179 @@
 <!--  <ng-template #loading>-->
 <!--    Loading...........-->
 <!--  </ng-template>-->
-<div class="container w-75 mt-2">
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body text-center">
-          <h5 class="card-title m-b-0">Projets du fournisseur : {{(projects|async)?.at(0)?.supplierName}}</h5>
-        </div>
-        <ng-container *ngIf="projects | async as projectList ; else failureOrLoading">
-          <div class="table-responsive">
-            <table class="table border-black" >
-              <thead class="thead-light">
-              <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Numero de Contract</th>
-                <th scope="col">Evaluation</th>
-                <th scope="col">Actions</th>
-              </tr>
-              </thead>
-              <tbody class="customtable" >
-              <tr *ngFor="let p of projects | async">
-                <td>{{p.id}}</td>
-                <td>{{p.n_contract}}</td>
-                <td  *ngIf="p.evaluation_score ; else missingValue">{{p.evaluation_score}}</td>
-                <td>
-                  <i class="bi bi-pencil-square m-2" (click)="handleAddEvaluationToProject(p)"></i>
-                  <i class="bi bi-arrow-right-square m-2" (click)="HandleGetDetailsOfEvaluation(p)"></i>
-                  <i class="bi bi-trash3 m-2" (click)="handleDeleteProject(p)"></i>
-                  <i class="bi bi-recycle m-2" (click)="handleDeleteEvaluation(p)"></i>
-                </td>
-              </tr>
-              </tbody>
-            </table>
+<!--<div class="container w-75 mt-2">-->
+<!--  <div class="row">-->
+<!--    <div class="col-12">-->
+<!--      <div class="card">-->
+<!--        <div class="card-body text-center">-->
+<!--          <h5 class="card-title m-b-0">Projets du fournisseur : {{(projects|async)?.at(0)?.supplierName}}</h5>-->
+<!--        </div>-->
+<!--        <ng-container *ngIf="projects | async as projectList ; else failureOrLoading">-->
+<!--          <div class="table-responsive">-->
+<!--            <table class="table border-black" >-->
+<!--              <thead class="thead-light">-->
+<!--              <tr>-->
+<!--                <th scope="col">Id</th>-->
+<!--                <th scope="col">Numero de Contract</th>-->
+<!--                <th scope="col">Evaluation</th>-->
+<!--                <th scope="col">Actions</th>-->
+<!--              </tr>-->
+<!--              </thead>-->
+<!--              <tbody class="customtable" >-->
+<!--              <tr *ngFor="let p of projects | async">-->
+<!--                <td>{{p.id}}</td>-->
+<!--                <td>{{p.n_contract}}</td>-->
+<!--                <td  *ngIf="p.evaluation_score ; else missingValue">{{p.evaluation_score}}</td>-->
+<!--                <td>-->
+<!--                  <i class="bi bi-pencil-square m-2" (click)="handleAddEvaluationToProject(p)"></i>-->
+<!--                  <i class="bi bi-arrow-right-square m-2" (click)="HandleGetDetailsOfEvaluation(p)"></i>-->
+<!--                  <i class="bi bi-trash3 m-2" (click)="handleDeleteProject(p)"></i>-->
+<!--                  <i class="bi bi-recycle m-2" (click)="handleDeleteEvaluation(p)"></i>-->
+<!--                </td>-->
+<!--              </tr>-->
+<!--              </tbody>-->
+<!--            </table>-->
+<!--          </div>-->
+<!--        </ng-container>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <ng-template #failureOrLoading>-->
+<!--    <ng-container *ngIf="errorMessage ; else loading">-->
+<!--      <div class="text-danger">-->
+<!--        {{ errorMessage }}-->
+<!--      </div>-->
+<!--    </ng-container>-->
+<!--    <ng-template #loading>-->
+<!--      Loading...........-->
+<!--    </ng-template>-->
+<!--  </ng-template>-->
+<!--</div>-->
+<!--<ng-template #missingValue>-->
+<!--  <td>N/A</td>-->
+<!--</ng-template>-->
+
+<!--///HERE////-->
+
+<html data-bs-theme="light" lang="en" style="margin-top: -50px;">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+  <title>Table - Brand</title>
+</head>
+<ng-container *ngIf="projects | async as listProjects ; else failureOrLoading">
+  <body id="page-top"
+        style="margin-right: 50px;margin-left: 50px;margin-bottom: -208px;padding-top: 0px;padding-bottom: 222px;">
+  <div id="wrapper">
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <div class="container-fluid"
+             style="padding-left: 50px;padding-right: 50px;padding-top: 0px;margin-top: 10px;margin-bottom: 50px;padding-bottom: 0px;">
+          <h3 class="text-dark mb-4" style="padding-bottom: 0px;"><span
+            style="color: rgb(78, 115, 223);">Projets</span></h3>
+          <div class="card shadow">
+            <div class="card-header py-3">
+              <p class="text-primary m-0 fw-bold">Informations des Projet :</p>
+            </div>
+            <div class="card-body" style="padding-right: 80px;padding-left: 80px;margin-right: 0px;">
+              <div class="row">
+                <div class="col-md-6 col-lg-4">
+                  <div  *ngIf="searchFormGroup"  id="dataTable_filter" class="text-md-end dataTables_filter"
+                       style="margin-right: 10px; padding-right: 10px;">
+                    <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchProject()">
+                      <div class="input-group">
+                        <input class="form-control form-control-sm" type="search" aria-controls="dataTable"
+                               placeholder="Search" formControlName="keyword" />
+                        <button class="btn btn-primary py-0" type="submit">
+                          <i class="bi bi-search"></i>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div  id="dataTable_filter2" class="text-md-end dataTables_filter"
+                       style="margin-right: 10px; padding-right: 10px;">
+                  </div>
+                </div>
+              </div>
+              <div id="dataTablediv" class="table-responsive table mt-2" role="grid" aria-describedby="dataTable_info">
+                <table id="dataTable" class="table my-0">
+                  <thead>
+                  <tr>
+                    <th>N° Contrat</th>
+                    <th style="padding-left: 0px;padding-right: 0px;">Chef de Projet</th>
+                    <th>Score</th>
+                    <th>Operations</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let p of pagedProjects">
+                    <td>
+                      <div>{{ p.n_contract }}</div>
+                    </td>
+                    <td>
+                      <div>{{ p.projectManagerName }}</div>
+                    </td>
+                    <td *ngIf="p.evaluationId; else missingValue">
+                      <div [style.color]="p.evaluation_score >= 80 ? 'green' : p.evaluation_score >= 50 ? 'orange' : 'red'">
+                        <b>{{ p.evaluation_score | number:'1.0-1' }}</b></div>
+                    </td>
+                    <td>
+                      <i class="link-text2" (click)="handleGetDetailsOfProject(p)">Details</i>
+                    </td>
+                  </tr>
+                  </tbody>
+                  <tfoot>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-md-6 align-self-center">
+                  <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Page {{currentPage+1}} of {{maxPage+1}}</p>
+                </div>
+                <div class="col-md-6">
+                  <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                    <ul class="pagination">
+                      <button class="button-like" [disabled]="currentPage == 0" (click)="previousPage()">
+                        <li class="page-item disabled"><a class="page-link" aria-label="Previous"><span
+                          aria-hidden="true">«</span></a></li>
+                      </button>
+                      <li class="page-item active"><a class="page-link">{{ currentPage + 1 }} of {{ maxPage + 1 }}</a>
+                      </li>
+                      <button class="button-like" [disabled]="currentPage >= maxPage" (click)="nextPage()">
+                        <li class="page-item disabled"><a class="page-link" aria-label="Previous"><span
+                          aria-hidden="true">»</span></a></li>
+                      </button>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
           </div>
-        </ng-container>
+        </div>
       </div>
     </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
   </div>
-  <ng-template #failureOrLoading>
-    <ng-container *ngIf="errorMessage ; else loading">
-      <div class="text-danger">
-        {{ errorMessage }}
-      </div>
-    </ng-container>
-    <ng-template #loading>
-      Loading...........
-    </ng-template>
+  </body>
+</ng-container>
+<ng-template #failureOrLoading>
+  <ng-container *ngIf="errorMessage ; else loading">
+    <div class="text-danger">
+      {{ errorMessage }}
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    Loading...........
   </ng-template>
-</div>
+</ng-template>
 <ng-template #missingValue>
   <td>N/A</td>
 </ng-template>
+<ng-template #noProjects>
+  <td>0</td>
+</ng-template>
+</html>
+

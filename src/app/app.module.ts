@@ -7,7 +7,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SuppliersComponent } from './suppliers/suppliers.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { NewSupplierComponent } from './new-supplier/new-supplier.component';
 import { EditSupplierComponent } from './edit-supplier/edit-supplier.component';
 import { ProjectsComponent } from './projects/projects.component';
@@ -27,6 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
+import {ToastrModule} from "ngx-toastr";
+import {SliderModule} from "primeng/slider";
 export function initializeKeycloak(kcService : KeycloakService)
 {
   return ()=>{
@@ -80,6 +82,12 @@ export function initializeKeycloak(kcService : KeycloakService)
     MatStepperPrevious,
     MatDialogContent,
     MatDialogActions,
+    ToastrModule.forRoot(),
+    FormsModule,
+    SliderModule,
+
+
+// ToastrModule added here
   ],
   providers: [
      {provide : APP_INITIALIZER , deps :[KeycloakService],useFactory:initializeKeycloak,multi:true}

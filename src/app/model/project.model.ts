@@ -7,9 +7,12 @@ export interface Project{
   supplierId:number
   projectManagerId:number
   projectManagerName:string
+  buyerId:number
+  buyerName:string
   userId : string
   supplierName : string
   evaluationId : number
   evaluation_score : number
   evaluation_date : Date
+  amount : number
 }

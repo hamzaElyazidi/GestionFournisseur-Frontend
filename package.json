@@ -26,6 +26,9 @@
     "keycloak-admin": "^1.14.22",
     "keycloak-angular": "^15.2.1",
     "keycloak-js": "^24.0.3",
+    "ngx-toastr": "^18.0.0",
+    "pdfmake": "^0.2.10",
+    "primeng": "^17.16.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.4"
@@ -35,6 +38,7 @@
     "@angular/cli": "~17.3.5",
     "@angular/compiler-cli": "^17.3.5",
     "@types/jasmine": "~4.3.0",
+    "@types/pdfmake": "^0.2.9",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

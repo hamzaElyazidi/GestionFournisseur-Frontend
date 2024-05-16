@@ -44,22 +44,17 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" routerLink="/suppliers">Fournisseurs</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/my-projects">Projets</a>
+        <li *ngIf="(secService.hasRoleIn(['USER']) || secService.hasRoleIn(['BUYER'])) && !secService.hasRoleIn(['ADMIN'])" class="nav-item">
+          <a class="nav-link" routerLink="/my-projects">Mes Projets</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="secService.hasRoleIn(['ADMIN'])">
           <a class="nav-link" routerLink="/users">Users</a>
         </li>
         <li class="nav-item">
           <a class="nav-link">
-          <span>User Name : {{secService.profile?.username}}</span>
-            <span>User Id : {{secService.profile?.id}}</span>
-
+          <span>Utilisateur connecté : {{secService.profile?.username}}</span>
           </a>
         </li>
       </ul>

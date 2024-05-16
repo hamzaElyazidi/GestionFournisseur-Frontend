@@ -1,0 +1,155 @@
+<!--<p>project-details works!</p>-->
+<!--{{(project|async)?.n_contract}}-->
+<!--{{(evaluation|async)?.evaluation_score}}-->
+
+<html data-bs-theme="light" lang="en" style>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+  <title></title>
+</head>
+
+<body id="page-top" *ngIf="(project|async) as proje">
+<div id="wrapper">
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <div class="container-fluid" style="padding-left: 50px;padding-right: 48px;margin-top: 20px;">
+        <h3 class="text-dark mb-4"><em>Détails du projet :</em>{{(project|async)?.n_contract}}</h3>
+        <div class="row mb-3">
+          <div class="col-lg-4">
+            <div class="card mb-3"></div>
+            <div  class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="text-primary fw-bold m-0">Evaluation</h6>
+              </div>
+              <div  *ngIf=" (evaluation|async)  && (project | async) ; else missingEvaluation"  class="card-body">
+<!--                <p>Ce projet n&#39;est pas encore évalué</p><button class="btn btn-primary" type="button">évaluer</button>-->
+                <h4 class="small fw-bold"><span style="font-weight: normal !important; color: rgb(0, 0, 0);">Performance technique</span><br /><span class="float-end">{{(evaluation|async)?.scores?.at(0)?.score}} %</span></h4>
+                <div class="progress progress-sm mb-3" *ngIf="evaluation | async as eval">
+                  <div *ngIf="eval.scores && eval.scores.length > 0 && eval.scores[0]?.score != null" [style.background-color]="(eval.scores[0].score >= 80 ? 'green' : (eval.scores[0].score >= 50 ? 'orange' : 'red'))" class="progress-bar" aria-valuemin="0" aria-valuemax="100" [style.width]="eval.scores[0].score + '%'">
+                    <span class="visually-hidden">{{ eval.scores[0].score }}%</span>
+                  </div>
+                </div>
+                <h4 class="small fw-bold"><span style="font-weight: normal !important; color: rgb(0, 0, 0);">Maitrise des couts</span><br /><span class="float-end">{{(evaluation|async)?.scores?.at(1)?.score}} %</span></h4>
+<!--                <div class="progress progress-sm mb-3">-->
+<!--                  <div [style.background-color]="(evaluation|async)?.scores?.at(1)?.score >= 80 ? 'green ': (evaluation|async)?.scores?.at(1)?.score >= 50 ? 'orange' : 'red'" class="progress-bar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" [style.width]="(evaluation|async)?.scores?.at(1)?.score+'%'"><span class="visually-hidden">40%</span></div>-->
+<!--                </div>-->
+                <div class="progress progress-sm mb-3" *ngIf="evaluation | async as eval">
+                  <div *ngIf="eval.scores && eval.scores.length > 0 && eval.scores[1]?.score != null" [style.background-color]="(eval.scores[1].score >= 80 ? 'green' : (eval.scores[1].score >= 50 ? 'orange' : 'red'))" class="progress-bar" aria-valuemin="0" aria-valuemax="100" [style.width]="eval.scores[1].score + '%'">
+                    <span class="visually-hidden">{{ eval.scores[1].score }}%</span>
+                  </div>
+                </div>
+                <h4 class="small fw-bold"><span style="font-weight: normal !important; color: rgb(0, 0, 0);">Respect des délais</span><br /><span class="float-end">{{(evaluation|async)?.scores?.at(2)?.score}} %</span></h4>
+<!--                <div class="progress progress-sm mb-3">-->
+<!--                  <div [style.background-color]="(evaluation|async)?.scores?.at(2)?.score >= 80 ? 'green ': (evaluation|async)?.scores?.at(2)?.score >= 50 ? 'orange' : 'red'" class="progress-bar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" [style.width]="(evaluation|async)?.scores?.at(2)?.score+'%'"><span class="visually-hidden">60%</span></div>-->
+<!--                </div>-->
+                <div class="progress progress-sm mb-3" *ngIf="evaluation | async as eval">
+                  <div *ngIf="eval.scores && eval.scores.length > 0 && eval.scores[2]?.score != null" [style.background-color]="(eval.scores[2].score >= 80 ? 'green' : (eval.scores[2].score >= 50 ? 'orange' : 'red'))" class="progress-bar" aria-valuemin="0" aria-valuemax="100" [style.width]="eval.scores[2].score + '%'">
+                    <span class="visually-hidden">{{ eval.scores[2].score }}%</span>
+                  </div>
+                </div>
+                <h4 class="small fw-bold"><span style="font-weight: normal !important; color: rgb(0, 0, 0);">Résolution des problémes</span><br /><span class="float-end">{{(evaluation|async)?.scores?.at(3)?.score}} %</span></h4>
+<!--                <div class="progress progress-sm mb-3">-->
+<!--                  <div [style.background-color]="(evaluation|async)?.scores?.at(3)?.score >= 80 ? 'green ': (evaluation|async)?.scores?.at(0)?.score >= 50 ? 'orange' : 'red'" class="progress-bar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" [style.width]="(evaluation|async)?.scores?.at(3)?.score+'%'"><span class="visually-hidden">80%</span></div>-->
+<!--                </div>-->
+                <div class="progress progress-sm mb-3" *ngIf="evaluation | async as eval">
+                  <div *ngIf="eval.scores && eval.scores.length > 0 && eval.scores[3]?.score != null" [style.background-color]="(eval.scores[3].score >= 80 ? 'green' : (eval.scores[3].score >= 50 ? 'orange' : 'red'))" class="progress-bar" aria-valuemin="0" aria-valuemax="100" [style.width]="eval.scores[3].score + '%'">
+                    <span class="visually-hidden">{{ eval.scores[3].score }}%</span>
+                  </div>
+                </div>
+                <label class="form-label"><strong>Date D'évaluation Du Projet :</strong></label>
+                <p>{{(evaluation|async)?.evaluation_date | date: 'YYYY-MM-dd' }}</p><label class="form-label">
+                <strong>Score :</strong></label>
+                <div *ngIf="evaluation | async as eval">
+                  <p [style.color]="((eval.evaluation_score??0) >= 80 ? 'green' : ((eval.evaluation_score)??0 >= 50 ? 'orange' : 'red'))"><b>{{eval.evaluation_score | number:'1.0-1' }} %</b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="row mb-3 d-none">
+              <div class="col">
+                <div class="card text-white bg-primary shadow">
+                  <div class="card-body">
+                    <div class="row mb-2">
+                      <div class="col">
+                        <p class="m-0">Peformance</p>
+                        <p class="m-0"><strong>65.2%</strong></p>
+                      </div>
+                      <div class="col-auto"><i class="fas fa-rocket fa-2x"></i></div>
+                    </div>
+                    <p class="text-white-50 small m-0"><i class="fas fa-arrow-up"></i>5% since last month</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card text-white bg-success shadow">
+                  <div class="card-body">
+                    <div class="row mb-2">
+                      <div class="col">
+                        <p class="m-0">Peformance</p>
+                        <p class="m-0"><strong>65.2%</strong></p>
+                      </div>
+                      <div class="col-auto"><i class="fas fa-rocket fa-2x"></i></div>
+                    </div>
+                    <p class="text-white-50 small m-0"><i class="fas fa-arrow-up"></i>5% since last month</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="card shadow mb-3">
+                  <div class="card-header py-3">
+                    <p class="text-primary m-0 fw-bold">Projet Info</p>
+                  </div>
+                  <div class="card-body">
+                    <form>
+                      <div class="row">
+                        <div class="col">
+                          <div class="mb-3"><label class="form-label" ><strong>N° Contrat</strong></label>
+                            <p>{{(project|async)?.n_contract}}</p>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="mb-3"><label class="form-label"><strong>Date Début Du Projet</strong></label>
+                            <p>{{(project|async)?.startsAt | date: 'YYYY-MM-dd' }}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <div class="mb-3"><label class="form-label"><strong>Chef De Projet</strong></label>
+                            <p>{{(project|async)?.projectManagerName}}</p>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="mb-3"><label class="form-label"><strong>Date Fin Du Projet</strong></label>
+                            <p>{{(project|async)?.endsAt | date: 'YYYY-MM-dd'}}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mb-3"></div>
+                    </form>
+                    <p><strong>Fournisseur :</strong></p>
+                    <p>{{(project|async)?.supplierName}}</p><label class="form-label"><strong>Description :</strong></label>
+                    <p>{{(project|async)?.description}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #missingEvaluation>
+  <p class="ms-5 mb-3">Ce projet n'est pas encore évalué</p>
+  <div *ngIf="secService.profile?.id===proje.userId">
+    <button class="btn btn-primary ms-5 mb-3" type="button" (click)="handleAddEvaluationToProject(proje)">évaluer</button>
+  </div>
+</ng-template>
+</body>
+</html>

@@ -11,6 +11,7 @@ export class ProjectService {
 
 
 
+
   backendHost:string="http://localhost:8009"
   constructor(private http:HttpClient) {
   }
@@ -21,8 +22,10 @@ export class ProjectService {
     return this.http.get<Array<Evaluation>>(this.backendHost+"/evaluations?supplierId="+supplierId)
   }
 
-  getProjectsByUserId(userId : string) {
-    return this.http.get<Array<Project>>(this.backendHost+"/projects/my-projects?userId="+userId) ;
+  getProjectsByUserId(userId : string , usertype:string) {
+    console.log('here :   ' + userId)
+    console.log('here2 :   ' + usertype)
+    return this.http.get<Array<Project>>(this.backendHost+"/projects/my-projects?userId="+userId+"&usertype="+usertype) ;
   }
   public saveProject(project : Project) : Observable<Project>{
     return  this.http.post<Project>(this.backendHost+"/projects",project);
@@ -35,6 +38,9 @@ export class ProjectService {
   }
   deleteEvaluation(id: number) {
     return this.http.delete(this.backendHost+"/evaluations/"+id);
+  }
+  getProjectByid(id: number) {
+    return this.http.get<Project>(this.backendHost+"/projects/"+id)
   }
 
 

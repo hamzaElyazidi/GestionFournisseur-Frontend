@@ -36,43 +36,113 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--</div>-->
-<p>here</p>
-<button mat-raised-button class="toggle-linear-button" (click)="isLinear = !isLinear">
-  {{ !isLinear ? 'Enable linear mode' : 'Disable linear mode' }}
-</button>
+<html data-bs-theme="light" lang="en" style>
 
-<mat-vertical-stepper [linear]="isLinear" #stepper class="custom-stepper">
-  <mat-step [stepControl]="firstFormGroup" class="custom-step">
-    <ng-template matStepLabel>Fill out your name</ng-template>
-    <form [formGroup]="firstFormGroup" class="form-container">
-      <mat-form-field appearance="fill">
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-      </mat-form-field>
-      <div class="button-container">
-        <button mat-button matStepperNext class="next-button">Next</button>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+  <title></title>
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <div class="container-fluid" style="margin-top: 30px;">
+        <h3 class="text-dark mb-4">Veuillez saisir les informations du projet</h3>
+        <div class="row mb-3">
+          <div class="col-lg-8">
+            <div class="row mb-3 d-none">
+              <div class="col">
+                <div class="card text-white bg-primary shadow">
+                  <div class="card-body">
+                    <div class="row mb-2">
+                      <div class="col">
+                        <p class="m-0">Peformance</p>
+                        <p class="m-0"><strong>65.2%</strong></p>
+                      </div>
+                      <div class="col-auto"><i class="fas fa-rocket fa-2x"></i></div>
+                    </div>
+                    <p class="text-white-50 small m-0"><i class="fas fa-arrow-up"></i> 5% since last month</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card text-white bg-success shadow">
+                  <div class="card-body">
+                    <div class="row mb-2">
+                      <div class="col">
+                        <p class="m-0">Peformance</p>
+                        <p class="m-0"><strong>65.2%</strong></p>
+                      </div>
+                      <div class="col-auto"><i class="fas fa-rocket fa-2x"></i></div>
+                    </div>
+                    <p class="text-white-50 small m-0"><i class="fas fa-arrow-up"></i> 5% since last month</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-11 p-5" style="margin-left: 20px;">
+            <div class="card shadow mb-3">
+              <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold">Project Info</p>
+              </div>
+              <div class="card-body">
+                <form [formGroup]="newProjectFormGroup" (ngSubmit)="handleSaveProject()">
+                  <div class="row">
+                    <div class="col">
+                      <div class="mb-3"><label class="form-label"><strong>N° Contrat</strong></label><input class="form-control" type="text" formControlName="n_contract" placeholder="N° Contrat" name="NContrat" /></div>
+                    </div>
+                    <div class="col">
+                      <div class="mb-3"><label class="form-label"><strong>Date Début Du Projet</strong></label><input class="form-control" type="date" formControlName="startsAt"/></div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col" style="margin-bottom: 15px;">
+                      <!--                      <div></div><label class="form-label"><strong>Fournisseur</strong></label>-->
+                      <!--                      <p>{{supplierName}}</p>-->
+                      <label class="form-label" for="supplier"><strong>Fournisseur</strong></label>
+                      <select class="form-control" id="supplier" formControlName="supplier">-->
+                        <option *ngFor="let s of allSuppliers|async" [value]="s.id">{{ s.name }}</option>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <div class="mb-3"><label class="form-label"><strong>Date Fin Du Projet</strong></label><input class="form-control" type="date" formControlName="endsAt"/></div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="mb-3"><label class="form-label"><strong>Acheteur</strong></label><p>{{buyerName}}</p></div>
+                    </div>
+                    <div class="col" style="margin-bottom: 14px;">
+                      <label class="form-label" for="manager"><strong>Chef De Projet</strong></label>
+                      <!--                      <p>{{projectManagerName}}</p>-->
+                      <!--                      <label for="category"><strong>Secteur d'activité</strong> </label>-->
+                      <select class="form-control" id="manager" formControlName="manager">-->
+                        <option *ngFor="let m of allManagers|async" [value]="m.id">{{ m.last_name }} {{ m.first_name }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="mb-3"><label class="form-label"><strong>Montant</strong></label><input type="number" min="0" class="form-control" formControlName="amount"/></div>
+                  </div>
+                  <div class="row">
+                    <div class="mb-3"><label class="form-label"><strong>Description</strong></label><textarea class="form-control" formControlName="description"></textarea></div>
+                  </div>
+
+                  <div class="mb-3"></div>
+
+                  <button class="btn btn-primary btn-sm" [disabled]="!newProjectFormGroup.valid">Save Project</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </form>
-  </mat-step>
-  <mat-step [stepControl]="secondFormGroup" class="custom-step">
-    <ng-template matStepLabel>Fill out your address</ng-template>
-    <form [formGroup]="secondFormGroup" class="form-container">
-      <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
-      </mat-form-field>
-      <div class="button-container">
-        <button mat-button matStepperPrevious class="back-button">Back</button>
-        <button mat-button matStepperNext class="next-button">Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step class="custom-step">
-    <ng-template matStepLabel>Done</ng-template>
-    <p>You are now done.</p>
-    <div class="button-container">
-      <button mat-button matStepperPrevious class="back-button">Back</button>
-      <button mat-button (click)="stepper.reset()" class="reset-button">Reset</button>
     </div>
-  </mat-step>
-</mat-vertical-stepper>
+  </div>
+</div>
+</body>
+
+</html>

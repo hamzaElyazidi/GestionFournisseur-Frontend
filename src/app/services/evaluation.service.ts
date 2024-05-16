@@ -36,7 +36,6 @@ export class EvaluationService {
   // }
 
   public getEvaluation(evaluationId: number) : Observable<Evaluation>  {
-    console.log()
     return this.http.get<Evaluation>(`${this.backendHost}/evaluations/${evaluationId}`)
   }
 

@@ -6,3 +6,35 @@
   padding: 50px;
 
 }
+
+
+.link-text {
+  color: blue; /* Set text color to blue */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/*//*/
+.button-like {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  outline: none;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.button-like:hover {
+  text-decoration: none;
+  color: #0056b3;
+}
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.input-group input {
+  flex: 1;
+  margin-right: 5px; /* Adjust as needed */
+}

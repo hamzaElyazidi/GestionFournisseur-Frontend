@@ -2,19 +2,24 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Manager} from "../model/manager.model";
 import {ManagerService} from "../services/manager.service";
+import {NgForOf} from "@angular/common";
+import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 @Component({
   selector: 'app-create-user',
   standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgForOf
+    ],
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css'
 })
 export class CreateUSerComponent implements OnInit{
   newUserFormGroup! : FormGroup;
-  constructor(private fb : FormBuilder , private managerService :ManagerService) {
+
+  constructor(private router : Router ,private toastr: ToastrService,private fb : FormBuilder , private managerService :ManagerService) {
   }
 
   ngOnInit(): void {
@@ -39,7 +44,12 @@ this.newUserFormGroup = this.fb.group({
         password : formValues['password']
       }
       this.managerService.createManger(manager).subscribe({
-        next:value => console.log("Operation Completed") ,
+        next:value =>
+        {
+          this.toastr.success('User added successfully!', 'Success');
+          console.log(value)
+          this.router.navigateByUrl("/users")
+        },
         error:err => console.log("error")
       })
     }

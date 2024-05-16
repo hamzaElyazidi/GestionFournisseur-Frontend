@@ -66,7 +66,7 @@ export class SupplierShart2Component implements OnInit{
 
   chartOptions = {
     title: {
-      text: 'Monthly Sales Data',
+      text: 'Average Scores Across Evaluation Axes',
     },
     theme: 'light2',
     animationEnabled: true,

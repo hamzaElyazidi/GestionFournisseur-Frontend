@@ -88,7 +88,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
-  <title>Table - Brand</title>
+  <title></title>
 </head>
 <ng-container *ngIf="suppliers | async as listSupplier ; else failureOrLoading">
   <body id="page-top"
@@ -96,11 +96,11 @@
   <div id="wrapper">
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
-        <div class="container py-4 py-xl-5" style="margin-top: 0px;">
+        <div class="container py-2 py-xl-5" style="margin-top: 0px;">
           <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" style="padding-top: 0px;margin-top: 2px;">
             <div class="col">
               <div class="card">
-                <div class="card-body p-4">
+                <div class="card-body p-4  shadow border-start-info" style="background-color: whitesmoke">
                   <h4 class="card-title">Nombre de Fournisseurs</h4>
                   <h1>{{ totalNumberOfSuppliers }}</h1>
                 </div>
@@ -108,7 +108,7 @@
             </div>
             <div class="col">
               <div class="card">
-                <div class="card-body p-4">
+                <div class="card-body p-4 shadow border-start-info" style="background-color: whitesmoke">
                   <h4 class="card-title">Nombre de Projets</h4>
                   <h1>{{ totalNumberOfProjects }}</h1>
                 </div>
@@ -116,17 +116,17 @@
             </div>
             <div class="col">
               <div class="card">
-                <div class="card-body p-4">
+                <div class="card-body p-4 shadow border-start-info " style="background-color: aliceblue">
                   <h4 class="card-title">Average Rating</h4>
                   <h1
-                    [style.color]="averageRating >= 80 ? 'green' : averageRating >= 50 ? 'orange' : 'red'">{{ averageRating }}</h1>
+                    [style.color]="averageRating >= 80 ? 'green' : averageRating >= 50 ? 'orange' : 'red'">{{ averageRating | number:'1.0-1'}}</h1>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="container-fluid"
-             style="padding-left: 50px;padding-right: 50px;padding-top: 0px;margin-top: 10px;margin-bottom: 50px;padding-bottom: 0px;">
+             style="padding-left: 50px;padding-right: 50px;padding-top: 0px;margin-top: 0px;margin-bottom: 50px;padding-bottom: 0px;">
           <h3 class="text-dark mb-4" style="padding-bottom: 0px;"><span
             style="color: rgb(78, 115, 223);">Fournisseurs</span></h3>
           <div class="card shadow">
@@ -170,11 +170,13 @@
               </div>
 
 
+
               <div id="dataTablediv" class="table-responsive table mt-2" role="grid" aria-describedby="dataTable_info">
                 <table id="dataTable" class="table my-0">
                   <thead>
                   <tr>
                     <th>Nom</th>
+                    <th>Secteur d'activité </th>
                     <th style="padding-left: 0px;padding-right: 0px;">Nombre de projets</th>
                     <th>Rating</th>
                     <th>Operations</th>
@@ -184,17 +186,20 @@
                   <tr *ngFor="let s of pagedSuppliers">
 <!--                    (click)="handleGetSupplierDetails(s)"-->
                     <td>
-                      <div class="link-text"  (click)="openSupplierDetailsDialog(s.id)">{{ s.name }}</div>
+                      <div class="link-text" (click)="handleGetSupplierDetails(s)">{{ s.name }}</div>
+                    </td>
+                    <td>
+                      <div >{{ convertEnum(s.sector??"")  }}</div>
                     </td>
                     <td *ngIf="s.number_of_projects>0; else noProjects">
                       <div class="link-text" (click)="handleGetProjectsOfSupplier(s)">{{ s.number_of_projects }}</div>
                     </td>
                     <td *ngIf="s.rating != 0; else missingValue">
                       <div [style.color]="s.rating >= 80 ? 'green' : s.rating >= 50 ? 'orange' : 'red'">
-                        <b>{{ s.rating }}</b></div>
+                        <b>{{ s.rating | number:'1.0-1'}}</b></div>
                     </td>
                     <td>
-                      <i class="link-text" (click)="handleAddProjectToSupplier(s)">Ajouter Un Projet</i>
+                      <i *ngIf="secService.hasRoleIn(['USER']) && !secService.hasRoleIn(['ADMIN'])" class="link-text2" (click)="handleAddProjectToSupplier(s)">Ajouter Un Projet</i>
                       <!--                    <i class="bi bi-arrow-right-square m-2" (click)="handleGetProjectsOfSupplier(s)"></i>-->
                       <i *ngIf="secService.hasRoleIn(['ADMIN'])" class="bi bi-pen m-2"
                          (click)="handleEditSupplier(s)"></i>
@@ -253,6 +258,45 @@
                       <div>Non Recommandé</div>
                     </div>
                   </div>
+                </div>
+                <div class="row mt-3 w-25"><button class="btn btn-primary" (click)="toggleElement()" >Proposer moi un fournisseur</button></div>
+                <div *ngIf="showElement && filterBySectorFormGroup">
+                  <form [formGroup]="filterBySectorFormGroup" (ngSubmit)="handleFilterSuppliersBySector()">
+<!--                    <div class="input-group">-->
+<!--                      <input class="form-control form-control-sm" type="search" aria-controls="dataTable"-->
+<!--                             placeholder="Min Rating" formControlName="minRating" />-->
+<!--                      <button class="btn btn-primary py-0" type="submit">-->
+<!--                        <i class="bi bi-search"></i>-->
+<!--                      </button>-->
+<!--                    </div>-->
+                    <div class="row w-100 mt-3">
+                      <div class="col m-2">
+                        <div class="input-group ">
+                          <label class="m-2">Secteur d'activite : </label>
+                          <select class="form-control" id="category" formControlName="sector">
+                            <option *ngFor="let s of industrySectorArray" [value]="s">{{ convertEnum(s) }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col m-2">
+                        <div class="input-group">
+                          <label class="m-2">Date Debut : </label>
+                          <input class="form-control form-control-sm" type="date" aria-controls="dataTable"
+                                  formControlName="dateDebut" />
+                        </div>
+                      </div>
+                      <div class="col m-2">
+                        <div class="input-group">
+                          <label class="m-2">Date Fin : </label>
+                          <input class="form-control form-control-sm" type="date" aria-controls="dataTable"
+                                 formControlName="dateFin" />
+                        </div>
+                      </div>
+                      <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-search"></i>
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>

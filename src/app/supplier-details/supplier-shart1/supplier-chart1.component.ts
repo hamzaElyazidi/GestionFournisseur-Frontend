@@ -43,7 +43,7 @@ export class SupplierChart1Component implements OnInit{
     animationEnabled: true,
     zoomEnabled: true,
     title: {
-      text: "Evolution du Rating"
+      text: "Rating over time"
     },
     axisY: {
       labelFormatter: (e: any) => {

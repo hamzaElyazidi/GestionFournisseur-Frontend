@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {Manager} from "../model/manager.model";
 import {HttpClient} from "@angular/common/http";
+import {Buyer} from "../model/buyer.model";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,9 @@ export class ManagerService {
   }
   getManagerByUserId(userId:string):Observable<Manager> {
     return this.http.get<Manager>(this.backendHost+"/managers?userId="+userId)
+  }
+  getBuyerByUserId(userId:string):Observable<Buyer> {
+    return this.http.get<Manager>(this.backendHost+"/buyers?userId="+userId)
   }
   createManger(manager: Manager) {
     return this.http.post<Manager>(this.backendHost+"/managers",manager)

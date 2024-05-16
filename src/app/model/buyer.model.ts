@@ -1,4 +1,4 @@
-export interface Manager {
+export interface Buyer {
   id?:number,
   first_name:string,
   last_name:string,

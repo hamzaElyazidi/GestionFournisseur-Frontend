@@ -188,6 +188,13 @@
   cursor: pointer; /* Change cursor to pointer on hover */
 }
 
+.link-text2 {
+  color: darkgrey; /* Set text color to blue */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  font-size: 12px; /* Set font size to smaller value */
+  font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" /* Change font family */
+}
+
 
 .button_plus {
   width: 35px;
