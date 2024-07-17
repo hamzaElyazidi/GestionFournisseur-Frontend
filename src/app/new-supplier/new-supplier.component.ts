@@ -37,7 +37,13 @@ export class NewSupplierComponent implements OnInit{
           console.log(value)
           this.router.navigateByUrl("/suppliers")
         },
-        error : err => {console.log(err)}
+
+        error : err => {
+          if (err.status === 409) {
+            this.toastr.error("Supplier with the same name already exists")
+          }
+          console.log(err)
+        }
       })
   }
 

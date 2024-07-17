@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {SupplierService} from "../services/supplier.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ManagerService} from "../services/manager.service";
@@ -7,9 +7,10 @@ import { ToastrService } from 'ngx-toastr';
 import {Project} from "../model/project.model";
 import {ProjectService} from "../services/project.service";
 import {KeycloakService} from "keycloak-angular";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Manager} from "../model/manager.model";
 import {Supplier} from "../model/supplier.model";
+import {WebsocketService} from "../services/websocket.service";
 
 @Component({
   selector: 'app-new-project',
@@ -35,9 +36,11 @@ export class NewProjectComponent implements OnInit{
     secondCtrl: ['', Validators.required],
   });
   isLinear = false;
+  private subscription: Subscription | undefined;
+
   //
 
-  constructor(private toastr: ToastrService,private fb : FormBuilder , private supplierService:SupplierService,private managerService:ManagerService, private router : Router , private route : ActivatedRoute , private projectService:ProjectService ,private keycloakService: KeycloakService) {
+  constructor(private websocketService : WebsocketService ,private toastr: ToastrService,private fb : FormBuilder , private supplierService:SupplierService,private managerService:ManagerService, private router : Router , private route : ActivatedRoute , private projectService:ProjectService ,private keycloakService: KeycloakService) {
    // this.supplierId = this.route.snapshot.params['supplierId'];
     const userId = this.keycloakService.getKeycloakInstance()?.idTokenParsed?.sub ;
     // managerService.getAllManagers().subscribe({
@@ -87,8 +90,7 @@ export class NewProjectComponent implements OnInit{
           // projectManagerName :this.fb.control(this.projectManagerName),
           supplier : null,
           manager:null
-        }
-      );
+        }, { validator: this.dateRangeValidator('startsAt', 'endsAt') });
       console.log('Supplier ' + this.supplierName)
     }
 
@@ -107,14 +109,29 @@ export class NewProjectComponent implements OnInit{
     else {
       this.projectService.saveProject(project).subscribe({
         next:(value)=>{
-          // alert("added")
           this.toastr.success('Project added successfully!', 'Success');
           console.log(value)
           // this.router.navigateByUrl("/project-details/"+value.id)
           this.router.navigateByUrl("my-projects")
         },
-        error:(err)=>console.log("error")
+        error:(err)=>{
+          if (err.status === 409) {
+            this.toastr.error("Project with the same Contract Number already exists")
+          }
+          console.log(err)
+        }
       })
     }
+  }
+  dateRangeValidator(startKey: string, endKey: string): ValidatorFn {
+    return (group: AbstractControl): { [key: string]: any } | null => {
+      const start = group.get(startKey)?.value;
+      const end = group.get(endKey)?.value;
+
+      if (start && end && start >= end) {
+        return { dateRange: 'startsAt must be less than endsAt' };
+      }
+      return null;
+    };
   }
 }

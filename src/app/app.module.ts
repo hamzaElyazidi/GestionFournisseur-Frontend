@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule, OnInit} from '@angular/core';
 import { BrowserModule  } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -29,6 +29,7 @@ import {MatInput} from "@angular/material/input";
 import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
 import {ToastrModule} from "ngx-toastr";
 import {SliderModule} from "primeng/slider";
+// import {NotificationService} from "./services/notification.service";
 export function initializeKeycloak(kcService : KeycloakService)
 {
   return ()=>{
@@ -42,7 +43,7 @@ export function initializeKeycloak(kcService : KeycloakService)
         onLoad : "check-sso" ,
         silentCheckSsoRedirectUri:
           window.location.origin + '/assets/silent-check-sso.html'
-            }
+      }
     })
   }
 }
@@ -90,9 +91,14 @@ export function initializeKeycloak(kcService : KeycloakService)
 // ToastrModule added here
   ],
   providers: [
-     {provide : APP_INITIALIZER , deps :[KeycloakService],useFactory:initializeKeycloak,multi:true}
+    {provide : APP_INITIALIZER , deps :[KeycloakService],useFactory:initializeKeycloak,multi:true}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule implements OnInit{
+  constructor() {}
+  ngOnInit(): void {
+    // The NotificationService is instantiated and will start listening for notifications
+  }
+}
 

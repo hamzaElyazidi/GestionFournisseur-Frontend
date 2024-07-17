@@ -149,68 +149,58 @@
 
 <div class="demo-page">
   <main class="demo-page-content">
-    <section >
+    <section *ngIf="EditProjectFormGroup">
       <div class="href-target" id="input-types"></div>
       <h1>
         <svg xmlns="http://www.w3.org/2000/svg" style="transform: rotate(90deg)" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-columns">
           <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18" />
         </svg>
         Veuillez saisir les informations du projet      </h1>
-     <form [formGroup]="newProjectFormGroup" (ngSubmit)="handleSaveProject()">
-      <div class="nice-form-group">
-        <label>N° Contrat</label>
-        <input required type="text" placeholder="N° Contrat" value=""  formControlName="n_contract" />
-      </div>
-
-      <div class="nice-form-group">
-        <label>Fournisseur</label>
-        <select class="form-control" id="supplier" formControlName="supplier" required>-->
-          <option *ngFor="let s of allSuppliers|async" [value]="s.id">{{ s.name }}</option>
-        </select>
-      </div>
-
-      <div class="nice-form-group">
-        <label>Chef De Projet</label>
-        <select class="form-control" id="manager" formControlName="manager" required>
-          <option *ngFor="let m of allManagers|async" [value]="m.id">{{ m.last_name }} {{ m.first_name }}</option>
-        </select>
-      </div>
+      <form [formGroup]="EditProjectFormGroup"  (ngSubmit)="handleUpdateProject()">
+        <div class="nice-form-group">
+          <label>N° Contrat</label>
+          <input required type="text" placeholder="N° Contrat"   formControlName="n_contract" />
+        </div>
 
 
+        <div class="nice-form-group">
+          <label>Fournisseur</label>
+          <select class="form-control" id="supplier" formControlName="supplier" required [value]="currentSupplier">
+            <option [defaultSelected]="currentSupplier" *ngFor="let s of allSuppliers|async" [value]="s.id">{{ s.name }}</option>
+          </select>
+        </div>
+        <div *ngIf="!project.evaluationId" class="nice-form-group">
+          <label>Chef De Projet</label>
+          <select  class="form-control" id="manager" formControlName="manager" required [value]="currentManager">
+            <option [defaultSelected]="(currentManager)" *ngFor="let m of allManagers|async" [value]="m.id" >{{ m.last_name }} {{ m.first_name }}</option>
+          </select>
+        </div>
+        <div class="nice-form-group">
+          <label>Acheteur</label>
+          <input type="text" disabled placeholder="Your name" [value]="this.project.buyerName" />
+        </div>
 
 
-      <div class="nice-form-group">
-        <label>Acheteur</label>
-        <input type="text" disabled placeholder="Your name" value="{{buyerName}}" />
-      </div>
+        <div *ngIf="!project.evaluationId" class="nice-form-group">
+          <label>Date Début Du Projet <strong>(Date Provisoire)</strong></label>
+          <input type="date" formControlName="startsAt" required/>
+        </div>
+        <div *ngIf="!project.evaluationId" class="nice-form-group">
+          <label>Date Fin Du Projet <strong>(Date Provisoire)</strong></label>
+          <input type="date" placeholder="Date Début Du Projet" formControlName="endsAt" required/>
+        </div>
+        <div class="nice-form-group">
+          <label>montant</label>
+          <input type="number" placeholder="montant" formControlName="amount" min="0" required/>
+        </div>
 
-      <div class="nice-form-group">
-        <label>Date Début Du Projet <strong>(Date Provisoire)</strong></label>
-        <input type="date" placeholder="Date Début Du Projet" formControlName="startsAt" required/>
-      </div>
-
-
-      <div class="nice-form-group">
-        <label>Date Fin Du Projet <strong>(Date Provisoire)</strong></label>
-        <input type="date" placeholder="Date fin Du Projet" formControlName="endsAt" required/>
-      </div>
-
-
-
-      <div class="nice-form-group">
-        <label>montant</label>
-        <input type="number" placeholder="montant" formControlName="amount" min="0" required/>  DH
-      </div>
-
-      <div class="nice-form-group">
-        <label>Description</label>
-        <textarea rows="7" placeholder="Description" formControlName="description" required></textarea>
-      </div>
-
-
-      <details>
-        <summary>
-            <button [disabled]="!newProjectFormGroup"  class="rounded-button" target="_blank">
+        <div class="nice-form-group">
+          <label>Description</label>
+          <textarea rows="7" placeholder="Description" formControlName="description" required></textarea>
+        </div>
+        <details>
+          <summary>
+            <button [disabled]="!EditProjectFormGroup"  class="rounded-button" target="_blank">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                 <polyline points="15 3 21 3 21 9" />
@@ -218,9 +208,9 @@
               </svg>
               Enregistrer
             </button>
-        </summary>
-      </details>
-     </form>
+          </summary>
+        </details>
+      </form>
     </section>
   </main>
 </div>

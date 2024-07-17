@@ -206,7 +206,7 @@
 .button_plus::before {
   content: '';
   position: absolute;
-  background-color: #095776;
+  background-color: #023020;
 }
 
 .button_plus::after {
@@ -225,8 +225,22 @@
 }
 
 .button_plus:hover {
-  background-color: #095776;
+  background-color: #023020;
   border-color: #fff;
+}
+
+.rounded-button {
+  background-color: rgb(22,180,123); /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 10px 20px; /* Some padding */
+  text-align: center; /* Center the text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make the button inline */
+  font-size: 16px; /* Increase font size */
+  border-radius: 25px; /* Rounded corners */
+  cursor: pointer; /* Pointer/hand icon on hover */
+  transition: background-color 0.5s, transform 0.5s; /* Slower transition for color and size */
 }
 
 
@@ -285,7 +299,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 24px;
+  font-size: 14px;
   color: white;
 }
 
@@ -306,4 +320,13 @@
   transform: translate(-50%, -50%);
   font-size: 14px;
   color: white;
+}
+
+.rounded-button:hover {
+  background-color: #40826D; /* Darker green on hover */
+  transform: scale(1.1); /* Slightly increase size */
+}
+
+body {
+  background-color:rgb(90,184,63);
 }

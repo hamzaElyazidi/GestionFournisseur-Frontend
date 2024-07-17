@@ -35,30 +35,88 @@
 <!--  </div>-->
 <!--</nav>-->
 <!--new nav bar-->
+<!--<nav class="navbar navbar-expand-lg navbar-light">-->
+<!--  <div class="container-fluid">-->
+<!--    <a class="navbar-brand fw-bold" href="#">E-Fournisseur</a>-->
+<!--    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--      <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" routerLink="/suppliers">Fournisseurs</a>-->
+<!--        </li>-->
+<!--        <li *ngIf="(secService.hasRoleIn(['USER']) || secService.hasRoleIn(['BUYER'])) && !secService.hasRoleIn(['ADMIN'])" class="nav-item">-->
+<!--          <a class="nav-link" routerLink="/my-projects">Mes Projets</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item" *ngIf="secService.hasRoleIn(['ADMIN'])">-->
+<!--          <a class="nav-link" routerLink="/users">Users</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link">-->
+<!--          <span>Utilisateur connecté : {{secService.profile?.username}}</span>-->
+<!--          </a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--      <button class="btn btn-outline-dark fw-bold" type="submit" (click)="logout()">Log out</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+<!--new new-->
+<head >
+  <link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title></title>
+</head>
 <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="#">E-Fournisseur</a>
+    <a class="navbar-brand fw-bold" href="#">
+      <img src="assets/OCP_Group.svg.png" alt="E-Fournisseur Logo" style="height: 50px; margin-left:25px">
+    </a>
+    <a class="navbar-brand fw-bold" href="#" style="color:#0ea271">   OCP Vendor Evaluation System</a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/suppliers">Fournisseurs</a>
+          <a class="ff nav-link" routerLink="/suppliers">Fournisseurs</a>
         </li>
         <li *ngIf="(secService.hasRoleIn(['USER']) || secService.hasRoleIn(['BUYER'])) && !secService.hasRoleIn(['ADMIN'])" class="nav-item">
-          <a class="nav-link" routerLink="/my-projects">Mes Projets</a>
+          <a class="ff nav-link" routerLink="/my-projects">Mes Projets</a>
         </li>
         <li class="nav-item" *ngIf="secService.hasRoleIn(['ADMIN'])">
-          <a class="nav-link" routerLink="/users">Users</a>
+          <a class="ff nav-link" routerLink="/users">Users</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link">
-          <span>Utilisateur connecté : {{secService.profile?.username}}</span>
-          </a>
-        </li>
+<!--                  <a class="nav-link">-->
+<!--                  <span>Utilisateur connecté : {{secService.profile?.id}}</span>-->
+<!--                  </a>-->
+        <li class="nav-item" *ngIf="(secService.hasRoleIn(['USER']) || !secService.hasRoleIn(['BUYER'])) && !secService.hasRoleIn(['ADMIN'])">
+<!--          <a class="nav-link">-->
+<!--            <span>Utilisateur connecté : {{secService.profile?.username}}</span>-->
+<!--          </a>-->
+<!--        </li>-->
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{notifications.length}}
+            </span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end notification-dropdown" aria-labelledby="notificationDropdown">
+                <li *ngFor="let notification of notifications" class="notification-dropdown">
+                  <p class="notification-item"><strong>N° Contrat :</strong> {{notification.n_contract}} | <strong>Acheteur :</strong>  {{notification.buyerName}} | <a routerLink="project-details/{{notification.projectId}}"> Detail</a> |           <span (click)="deleteProjectEvent(notification.id)" style="cursor:pointer; color:#3b4ce2">Ignorer</span></p>
+                </li>
+              </ul>
+            </li>
+          </ul>
       </ul>
-      <button class="btn btn-outline-dark fw-bold" type="submit" (click)="logout()">Log out</button>
+      <li class="">
+        <button class="rounded-button" type="submit" (click)="logout()">Log out</button>
+      </li>
     </div>
   </div>
 </nav>
+

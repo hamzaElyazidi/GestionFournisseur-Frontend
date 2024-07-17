@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SupplierService} from "../services/supplier.service";
-import {Supplier} from "../model/supplier.model";
+import {industrySector, Supplier} from "../model/supplier.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-edit-supplier',
@@ -14,7 +15,9 @@ export class EditSupplierComponent implements OnInit{
   supplierId! : string
   supplier!:Supplier
   EditSupplierFormGroup! :FormGroup
-  constructor(private fb:FormBuilder,private route : ActivatedRoute , private supplierService :SupplierService) {
+  industrySectorArray = Object.values(industrySector);
+
+  constructor(private router : Router ,private toastr: ToastrService,private fb:FormBuilder,private route : ActivatedRoute , private supplierService :SupplierService) {
    this.supplierId = this.route.snapshot.params['id'];
   }
   ngOnInit(): void {
@@ -24,8 +27,12 @@ export class EditSupplierComponent implements OnInit{
         this.supplier=supplier
         this.EditSupplierFormGroup = this.fb.group(
           {
-            name : this.fb.control(this.supplier.name ,[Validators.required, Validators.maxLength(50)]),
+            nom : this.fb.control(this.supplier.name ,[Validators.required, Validators.maxLength(50)]),
             description :this.fb.control(this.supplier.description,[Validators.required, Validators.maxLength(500)]),
+            phone :this.fb.control(this.supplier.phone,[Validators.required, Validators.maxLength(500)]),
+            website :this.fb.control(this.supplier.website,[Validators.required, Validators.maxLength(500)]),
+            mail :this.fb.control(this.supplier.mail,[Validators.required, Validators.maxLength(500)]),
+            sector: this.fb.control(this.supplier.sector)
           }
         );
 
@@ -42,7 +49,10 @@ export class EditSupplierComponent implements OnInit{
     supplier.id=this.supplier.id
     supplier.rating=this.supplier.rating
      this.supplierService.updateSupplier(supplier).subscribe({
-      next: supplier=>{alert("updated")},
+      next: supplier=>{
+        this.toastr.success('Supplier updated successfully!', 'Success');
+        this.router.navigateByUrl("/suppliers")
+      },
       error: err =>{console.log(err)}
     })
 
@@ -51,4 +61,19 @@ export class EditSupplierComponent implements OnInit{
 
 
   protected readonly FormGroup = FormGroup;
-}
+  protected readonly industrySector = industrySector;
+
+  convertEnum(sector:string) {
+    if (sector.toString()==="")return ""
+    if (sector.toString()==='Sector1') return 'Industrie manufacturière'
+    if (sector.toString()==='Sector2') return 'Technologie de l\'information (TI)'
+    if (sector.toString()==='Sector3') return 'Services professionnels'
+    if (sector.toString()==='Sector4') return 'Commerce de détail'
+    if (sector.toString()==='Sector5') return 'Services financiers'
+    if (sector.toString()==='Sector6') return 'Secteur de la santé'
+    if (sector.toString()==='Sector7') return 'Transport et logistique'
+    if (sector.toString()==='Sector8') return 'Construction et immobilier'
+    if (sector.toString()==='Sector9') return 'Alimentation et agriculture'
+    if (sector.toString()==='Sector10') return 'Energie'
+    return ""
+  }}

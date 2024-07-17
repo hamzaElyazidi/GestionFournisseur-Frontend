@@ -2,16 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Manager} from "../model/manager.model";
 import {ManagerService} from "../services/manager.service";
-import {NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf} from "@angular/common";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {Buyer} from "../model/buyer.model";
 @Component({
   selector: 'app-create-user',
   standalone: true,
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        NgForOf
+        NgForOf,
+        AsyncPipe
     ],
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css'
@@ -30,27 +32,64 @@ this.newUserFormGroup = this.fb.group({
   last_name :this.fb.control(null),
   job_title : this.fb.control(null),
     mail :this.fb.control(null),
+  role : this.fb.control(null)
 })
     }
     handleCreateUser()
     {
       const formValues = this.newUserFormGroup.value
-      let manager: Manager = {
-        first_name : formValues['first_name'],
-        last_name : formValues['last_name'] ,
-        job_title : formValues['job_title'] ,
-        email : formValues['mail'] ,
-        username : formValues['username'] ,
-        password : formValues['password']
+      if (formValues['role'] === 'Chef de Projet')
+      {
+        let manager: Manager = {
+          first_name : formValues['first_name'],
+          last_name : formValues['last_name'] ,
+          job_title : formValues['job_title'] ,
+          email : formValues['mail'] ,
+          username : formValues['username'] ,
+          password : formValues['password'] ,
+        }
+        this.managerService.createManger(manager).subscribe({
+          next:value =>
+          {
+            this.toastr.success('Project Manager added successfully!', 'Success');
+            console.log(value)
+            this.router.navigateByUrl("/users")
+          },
+          error:err => {
+            if (err.status === 400) {
+              this.toastr.error('Username or email belongs to an existing user', 'Success');
+            }
+            console.log(err)
+          }
+        })
       }
-      this.managerService.createManger(manager).subscribe({
-        next:value =>
-        {
-          this.toastr.success('User added successfully!', 'Success');
-          console.log(value)
-          this.router.navigateByUrl("/users")
-        },
-        error:err => console.log("error")
-      })
+      else if (formValues['role'] === 'Acheteur')
+      {
+        let buyer: Buyer = {
+          first_name : formValues['first_name'],
+          last_name : formValues['last_name'] ,
+          job_title : formValues['job_title'] ,
+          email :     formValues['mail'] ,
+          username : formValues['username'] ,
+          password : formValues['password'] ,
+        }
+        this.managerService.createBuyer(buyer).subscribe({
+          next:value =>
+          {
+            this.toastr.success('Buyer added successfully!', 'Success');
+            console.log(value)
+            this.router.navigateByUrl("/users")
+          },
+          error:err => {
+            // console.log("error")
+            if (err.status === 400 ) {
+              this.toastr.error("Username or email belongs to an existing user")
+            }
+          }
+        })
+      }
     }
+
+
+    protected readonly Array = Array;
 }

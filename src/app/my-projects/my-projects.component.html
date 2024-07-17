@@ -52,8 +52,7 @@
   <title>Table - Brand</title>
 </head>
 <ng-container *ngIf="projects | async as listProjects ; else failureOrLoading">
-  <body id="page-top"
-        style="margin-right: 50px;margin-left: 50px;margin-bottom: -208px;padding-top: 0px;padding-bottom: 222px;">
+  <body id="page-top">
   <div id="wrapper">
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
@@ -61,20 +60,22 @@
              style="padding-left: 50px;padding-right: 50px;padding-top: 0px;margin-top: 10px;margin-bottom: 50px;padding-bottom: 0px;">
           <h3 class="text-dark mb-4" style="padding-bottom: 0px;"><span
             style="color: rgb(78, 115, 223);">Projets</span></h3>
-          <div class="card shadow">
-            <div class="card-header py-3">
-              <p class="text-primary m-0 fw-bold">Informations des Projet :</p>
-            </div>
+          <div class="card shadow border-start-primary py-2">
+<!--            <div class="card-body">-->
+<!--          <div class="card shadow">-->
+<!--            <div class="card-header py-3">-->
+<!--              <p class="text-primary m-0 fw-bold">Informations des Projets :</p>-->
+<!--            </div>-->
             <div class="card-body" style="padding-right: 80px;padding-left: 80px;margin-right: 0px;">
               <div class="row">
                 <div class="col-md-6 col-lg-4">
                   <div  *ngIf="searchFormGroup"  id="dataTable_filter" class="text-md-end dataTables_filter"
                         style="margin-right: 10px; padding-right: 10px;">
                     <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchProject()">
-                      <div class="input-group">
+                      <div class="input-group " >
                         <input class="form-control form-control-sm" type="search" aria-controls="dataTable"
                                placeholder="Search" formControlName="keyword" />
-                        <button class="btn btn-primary py-0" type="submit">
+                        <button class="btn btn-primary py-0 " style="background-color: rgb(22,180,123)" type="submit">
                           <i class="bi bi-search"></i>
                         </button>
                       </div>
@@ -87,8 +88,10 @@
                   <thead>
                   <tr>
                     <th>N° Contrat</th>
-                    <th style="padding-left: 0px;padding-right: 0px;">Chef de Projet</th>
+                    <th style="padding-left: 0px;padding-right: 0px;" *ngIf="secService.hasRoleIn(['BUYER'])">Chef de Projet</th>
+                    <th style="padding-left: 0px;padding-right: 0px;" *ngIf="secService.hasRoleIn(['USER'])">Acheteur</th>
                     <th>Montant</th>
+                    <th>Devise</th>
                     <th>Operations</th>
                   </tr>
                   </thead>
@@ -114,7 +117,8 @@
 
                     </td>
                     <td>
-                      <div>{{ p.projectManagerName }}</div>
+                      <div *ngIf="secService.hasRoleIn(['BUYER'])">{{ p.projectManagerName }}</div>
+                      <div *ngIf="secService.hasRoleIn(['USER'])">{{ p.buyerName }}</div>
                     </td>
 <!--                    <td *ngIf="p.evaluationId; else missingValue">-->
 <!--                      <div [style.color]="p.evaluation_score >= 80 ? 'green' : p.evaluation_score >= 50 ? 'orange' : 'red'">-->
@@ -122,23 +126,26 @@
 <!--                    </td>-->
                     <td>
                       <div>
-                        <b>{{ p.amount | number:'1.0-1' }} DH</b></div>
+                        <b>{{ p.amount | number:'1.0-1' }}</b></div>
                     </td>
                     <td>
-                      <i class="m-3 link-text2" (click)="handleGetDetailsOfProject(p)" >Details</i>
-                      <i class="bi bi-pencil-square m-3"></i>
-                      <i class="bi bi-trash m-3" (click)="handleDeleteProject(p)"></i>
-                      <i  *ngIf="p.evaluationId" class="bi bi-recycle m-3" (click)="handleDeleteEvaluation(p)"></i>
+                      <div>
+                        <b>DH</b></div>
+                    </td>
+                    <td>
+                      <i *ngIf="secService.hasRoleIn(['USER' , 'BUYER'])" class="m-3 link-text2" (click)="handleGetDetailsOfProject(p)" >Details</i>
+                      <i *ngIf="secService.hasRoleIn(['USER']) && !p.evaluationId"  class="m-3 link-text2" (click)="handleAddEvaluationToProject(p)" >Évaluer</i>
+                      <i *ngIf="secService.hasRoleIn(['BUYER'])"  class="m-3 link-text2" (click)="handleEditProject(p)" >Modifier</i>
+                      <i *ngIf="secService.hasRoleIn(['BUYER'])"  class="m-3 link-text2" (click)="handleDeleteProject(p)" >Supprimer</i>
+                      <i *ngIf="secService.hasRoleIn(['USER']) && p.evaluationId"  class="m-3 link-text2" (click)="handleDeleteEvaluation(p)" >Supprimer Évaluation</i>
                     </td>
                   </tr>
                   </tbody>
-                  <tfoot>
-                  <tr *ngIf="secService.hasRoleIn(['BUYER'])">
-                    <td class="centered">
-                      <button class="button_plus" routerLink="/new-project"></button>
-                    </td>
-                  </tr>
-                  </tfoot>
+                  <div *ngIf="secService.hasRoleIn(['BUYER'])">
+                    <div class="centered">
+                      <button class="rounded-button mt-3" routerLink="/new-project">Ajouter un projet</button>
+                    </div>
+                  </div>
                 </table>
               </div>
               <div class="row">
@@ -149,10 +156,10 @@
                   <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
                     <ul class="pagination">
                       <button class="button-like" [disabled]="currentPage == 0" (click)="previousPage()">
-                        <li class="page-item disabled"><a class="page-link" aria-label="Previous"><span
-                          aria-hidden="true">«</span></a></li>
+                        <li class="page-item disabled" ><a class="page-link" aria-label="Previous"><span
+                          aria-hidden="true" >«</span></a></li>
                       </button>
-                      <li class="page-item active"><a class="page-link">{{ currentPage + 1 }} of {{ maxPage + 1 }}</a>
+                      <li class="page-item active" ><a class="page-link" style="background-color: rgb(22,180,123)">{{ currentPage + 1 }} of {{ maxPage + 1 }}</a>
                       </li>
                       <button class="button-like" [disabled]="currentPage >= maxPage" (click)="nextPage()">
                         <li class="page-item disabled"><a class="page-link" aria-label="Previous"><span
@@ -204,15 +211,11 @@
                   </div>
                 </div>
               </div>
-
-
-
             </div>
           </div>
         </div>
       </div>
     </div>
-    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
   </div>
   </body>
 </ng-container>

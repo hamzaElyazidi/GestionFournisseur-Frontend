@@ -38,3 +38,9 @@
   flex: 1;
   margin-right: 5px; /* Adjust as needed */
 }
+
+.font1{
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-size:16px;
+  color:rgb(22,180,123) !important;
+}

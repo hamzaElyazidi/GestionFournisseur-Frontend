@@ -44,6 +44,8 @@ export class SupplierShart2Component implements OnInit{
     let axe2 = {'id' : 2 , 'sum' : 0  }
     let axe3 = {'id' : 3 , 'sum' : 0 }
     let axe4 = {'id' : 4 , 'sum' : 0  }
+    let axe5 = {'id' : 5 , 'sum' : 0  }
+
     let count = 0
     for (const evaluation of this.evaluations) {
       count ++
@@ -52,6 +54,7 @@ export class SupplierShart2Component implements OnInit{
         if (score.question_id == 2 ) axe2.sum = axe2.sum + score.score
         if (score.question_id == 3 ) axe3.sum = axe3.sum + score.score
         if (score.question_id == 4 ) axe4.sum = axe4.sum + score.score
+        if (score.question_id == 5 ) axe5.sum = axe5.sum + score.score
       }
     }
     let constructedDataPoints: { label: string, y: number }[] = []
@@ -60,6 +63,7 @@ export class SupplierShart2Component implements OnInit{
     constructedDataPoints.push({label:'maitrise des couts',y:axe2.sum/count})
     constructedDataPoints.push({label:'respect des delais',y:axe3.sum/count})
     constructedDataPoints.push({label:'resolution des problemes',y:axe4.sum/count})
+    constructedDataPoints.push({label:'hygiène securité environnement',y:axe5.sum/count})
     return constructedDataPoints
 
   }

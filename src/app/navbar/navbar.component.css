@@ -23,3 +23,45 @@
     color: gray;
   }
 }
+
+
+
+/*.notification-dropdown {*/
+/*  max-height: 300px; !* Define the maximum height for the dropdown menu *!*/
+/*  overflow-y: auto; !* Add a vertical scrollbar if the content exceeds the maximum height *!*/
+/*}*/
+.notification-dropdown {
+  min-width: 600px; /* Adjust the width as needed */
+}
+.notification-item {
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Break long words */
+}
+.nav-link:hover {
+  color: rgb(22,180,123) !important;
+}
+
+
+.ff{
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-size:16px;
+}
+.rounded-button:hover {
+  transform: scale(1.1); /* Slightly increase size */
+  background-color: black; /* Green background */
+  color: white; /* White text */
+
+}
+.rounded-button {
+  background-color: white; /* Green background */
+  border: 1px solid black; /* Black border */
+  color: black; /* White text */
+  padding: 10px 20px; /* Some padding */
+  text-align: center; /* Center the text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make the button inline */
+  font-size: 16px; /* Increase font size */
+  border-radius: 25px; /* Rounded corners */
+  cursor: pointer; /* Pointer/hand icon on hover */
+  transition: background-color 0.5s, transform 0.5s; /* Slower transition for color and size */
+}

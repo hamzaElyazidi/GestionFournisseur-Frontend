@@ -1,25 +1,3 @@
-/*body {*/
-/*  background: #f7f7f7;*/
-/*}*/
-
-/*.form-box {*/
-/*  max-width: 500px;*/
-/*  margin: auto;*/
-/*  padding: 50px;*/
-/*  background: #ffffff;*/
-/*  border: 10px solid #f2f2f2;*/
-/*}*/
-
-/*h1, p {*/
-/*  text-align: center;*/
-/*}*/
-
-/*input, textarea {*/
-/*  width: 100%;*/
-/*}*/
-
-
-
 /*.custom-stepper {*/
 /*  max-width: 600px;*/
 /*  margin: 0 auto;*/
@@ -811,7 +789,6 @@ details summary::-webkit-details-marker {
   display: none
 }
 
-
 .rounded-button {
   background-color: rgb(22,180,123); /* Green background */
   border: none; /* Remove borders */
@@ -824,7 +801,6 @@ details summary::-webkit-details-marker {
   border-radius: 25px; /* Rounded corners */
   cursor: pointer; /* Pointer/hand icon on hover */
   transition: background-color 0.5s, transform 0.5s; /* Slower transition for color and size */
-
 
 }
 

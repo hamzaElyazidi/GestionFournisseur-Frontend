@@ -16,13 +16,23 @@ export class ManagerService {
   getAllManagers():Observable<Array<Manager>> {
     return this.http.get<Array<Manager>>(this.backendHost+"/allManagers")
   }
+  getAllBuyers():Observable<Array<Buyer>> {
+    return this.http.get<Array<Buyer>>(this.backendHost+"/allBuyers")
+  }
   getManagerByUserId(userId:string):Observable<Manager> {
     return this.http.get<Manager>(this.backendHost+"/managers?userId="+userId)
   }
+  getMangerByid(id: number): Observable<Manager> {
+    return this.http.get<Manager>(this.backendHost+"/managers/"+id)
+  }
   getBuyerByUserId(userId:string):Observable<Buyer> {
-    return this.http.get<Manager>(this.backendHost+"/buyers?userId="+userId)
+    return this.http.get<Buyer>(this.backendHost+"/buyers?userId="+userId)
   }
   createManger(manager: Manager) {
     return this.http.post<Manager>(this.backendHost+"/managers",manager)
   }
+  createBuyer(buyer: Buyer) {
+    return  this.http.post<Buyer>(this.backendHost+"/buyers",buyer)
+  }
+
 }

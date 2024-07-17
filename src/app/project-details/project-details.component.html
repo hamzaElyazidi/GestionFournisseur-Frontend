@@ -15,13 +15,12 @@
   <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
       <div class="container-fluid" style="padding-left: 50px;padding-right: 48px;margin-top: 20px;">
-        <h3 class="text-dark mb-4"><em>Détails du projet :</em>{{(project|async)?.n_contract}}</h3>
+        <h3 class="text-dark mb-4"><em>Détails du projet : </em>{{(project|async)?.n_contract}}</h3>
         <div class="row mb-3">
           <div class="col-lg-4">
-            <div class="card mb-3"></div>
             <div  class="card shadow mb-4">
               <div class="card-header py-3">
-                <h6 class="text-primary fw-bold m-0">Evaluation</h6>
+                <h6 class="text-primary fw-bold m-0 font1">Evaluation</h6>
               </div>
               <div  *ngIf=" (evaluation|async)  && (project | async) ; else missingEvaluation"  class="card-body">
 <!--                <p>Ce projet n&#39;est pas encore évalué</p><button class="btn btn-primary" type="button">évaluer</button>-->
@@ -56,6 +55,15 @@
                 <div class="progress progress-sm mb-3" *ngIf="evaluation | async as eval">
                   <div *ngIf="eval.scores && eval.scores.length > 0 && eval.scores[3]?.score != null" [style.background-color]="(eval.scores[3].score >= 80 ? 'green' : (eval.scores[3].score >= 50 ? 'orange' : 'red'))" class="progress-bar" aria-valuemin="0" aria-valuemax="100" [style.width]="eval.scores[3].score + '%'">
                     <span class="visually-hidden">{{ eval.scores[3].score }}%</span>
+                  </div>
+                </div>
+                <h4 class="small fw-bold"><span style="font-weight: normal !important; color: rgb(0, 0, 0);">Hygiène Securité Environnement</span><br /><span class="float-end">{{(evaluation|async)?.scores?.at(4)?.score}} %</span></h4>
+                <!--                <div class="progress progress-sm mb-3">-->
+                <!--                  <div [style.background-color]="(evaluation|async)?.scores?.at(3)?.score >= 80 ? 'green ': (evaluation|async)?.scores?.at(0)?.score >= 50 ? 'orange' : 'red'" class="progress-bar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" [style.width]="(evaluation|async)?.scores?.at(3)?.score+'%'"><span class="visually-hidden">80%</span></div>-->
+                <!--                </div>-->
+                <div class="progress progress-sm mb-3" *ngIf="evaluation | async as eval">
+                  <div *ngIf="eval.scores && eval.scores.length > 0 && eval.scores[4]?.score != null" [style.background-color]="(eval.scores[4].score >= 80 ? 'green' : (eval.scores[4].score >= 50 ? 'orange' : 'red'))" class="progress-bar" aria-valuemin="0" aria-valuemax="100" [style.width]="eval.scores[4].score + '%'">
+                    <span class="visually-hidden">{{ eval.scores[4].score }}%</span>
                   </div>
                 </div>
                 <label class="form-label"><strong>Date D'évaluation Du Projet :</strong></label>
@@ -102,7 +110,7 @@
               <div class="col">
                 <div class="card shadow mb-3">
                   <div class="card-header py-3">
-                    <p class="text-primary m-0 fw-bold">Projet Info</p>
+                    <p class="text-primary m-0 fw-bold font1">Projet</p>
                   </div>
                   <div class="card-body">
                     <form>
@@ -133,7 +141,11 @@
                       <div class="mb-3"></div>
                     </form>
                     <p><strong>Fournisseur :</strong></p>
-                    <p>{{(project|async)?.supplierName}}</p><label class="form-label"><strong>Description :</strong></label>
+                    <p>{{(project|async)?.supplierName}}</p>
+                    <p><strong>Montant :</strong></p>
+                    <p>{{(project|async)?.amount}} DH</p>
+                    <label class="form-label">
+                    <strong>Description :</strong></label>
                     <p>{{(project|async)?.description}}</p>
                   </div>
                 </div>
@@ -148,7 +160,7 @@
 <ng-template #missingEvaluation>
   <p class="ms-5 mb-3">Ce projet n'est pas encore évalué</p>
   <div *ngIf="secService.profile?.id===proje.userId">
-    <button class="btn btn-primary ms-5 mb-3" type="button" (click)="handleAddEvaluationToProject(proje)">évaluer</button>
+    <button class="btn btn-primary ms-5 mb-3" type="button" style="background-color: rgb(22,180,123)" (click)="handleAddEvaluationToProject(proje)">évaluer</button>
   </div>
 </ng-template>
 </body>

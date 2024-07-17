@@ -8,6 +8,7 @@ import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {Supplier} from "../model/supplier.model";
 import {SecurityService} from "../services/security.service";
+import {Buyer} from "../model/buyer.model";
 
 @Component({
   selector: 'app-users',
@@ -26,12 +27,18 @@ import {SecurityService} from "../services/security.service";
 })
 export class UsersComponent implements OnInit{
   managers!:Observable<Array<Manager>>
+  buyers!:Observable<Array<Buyer>>
   searchFormGroup: FormGroup | undefined
   errorMessage!: string;
   pagedManagers: Manager[] = [];
+  pagedBuyer : Buyer[] = [] ;
+
   pageSize: number = 5;
   currentPage: number = 0;
   maxPage: number = 0;
+
+  currentPageBuyers : number = 0 ;
+  maxPageBuyers : number = 0 ;
 
 
   constructor(private managerService : ManagerService,public secService : SecurityService) {
@@ -43,11 +50,27 @@ export class UsersComponent implements OnInit{
         return throwError(err)
       })
     )
+
+      this.buyers = this.managerService.getAllBuyers().pipe(
+        catchError(err => {
+          this.errorMessage = err.message;
+          return throwError(err)
+        })
+      )
+
+
       this.managers.subscribe((data: Manager[]) => {
         this.pagedManagers = this.getPage(data, this.currentPage);
         this.maxPage = Math.ceil(data.length / this.pageSize) - 1;
       });
+
+      this.buyers.subscribe((data: Buyer[]) => {
+        this.pagedBuyer = this.getPage(data, this.currentPageBuyers);
+        this.maxPageBuyers = Math.ceil(data.length / this.pageSize) - 1;
+      });
     }
+
+
 
   handleSearchManagers() {
 
@@ -60,6 +83,16 @@ export class UsersComponent implements OnInit{
       });
     }
   }
+
+  previousPageBuyer(): void {
+    if (this.currentPageBuyers > 0) {
+      this.currentPageBuyers--;
+      this.buyers.subscribe((data: Buyer[]) => {
+        this.pagedBuyer = this.getPage(data, this.currentPageBuyers);
+      });
+    }
+  }
+
   nextPage(): void {
     if (this.currentPage < this.maxPage) {
       this.currentPage++;
@@ -69,9 +102,28 @@ export class UsersComponent implements OnInit{
     }
   }
 
+  nextPageBuyer(): void {
+    if (this.currentPageBuyers < this.maxPageBuyers) {
+      this.currentPageBuyers++;
+      this.buyers.subscribe((data: Buyer[]) => {
+        this.pagedBuyer = this.getPage(data, this.currentPageBuyers);
+      });
+    }
+  }
+
   getPage(data: Manager[], pageNumber: number): Manager[] {
     const startIndex = pageNumber * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     return data.slice(startIndex, endIndex);
+  }
+
+  getPageBuyer(data: Buyer[], pageNumber: number): Buyer[] {
+    const startIndex = pageNumber * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return data.slice(startIndex, endIndex);
+  }
+
+  handleDeleteProjectManager(m: Manager) {
+    
   }
 }

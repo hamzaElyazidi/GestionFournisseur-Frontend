@@ -13,6 +13,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import {Content, TDocumentDefinitions, UnorderedListElement} from "pdfmake/interfaces";
 import {SuppliersComponent} from "../suppliers/suppliers.component";
 import {ProjectsComponent} from "../projects/projects.component";
+import {formatDate} from "@angular/common";
 
 
 @Component({
@@ -73,7 +74,10 @@ export class SupplierDetailsComponent implements OnInit{
                     heading: { fontSize: 16, bold: true },
                     subHeading: { fontSize: 14, bold: true },
                     paragraph: { fontSize: 12 },
-                    list: { fontSize: 12 }
+                    // list: { fontSize: 12 }
+                    table: { margin: [0, 5, 0, 15] },
+                    tableHeader: { bold: true, fontSize: 13, color: 'black' },
+                    tableData: { fontSize: 12 }
                   }
                 };
                 pdfMake.createPdf(documentDefinition).download();
@@ -101,31 +105,99 @@ export class SupplierDetailsComponent implements OnInit{
     // // Generate PDF
     // pdfMake.createPdf(documentDefinition).download();
   }
+
   handleGenerateRaport()
   {
 
     this.generateSupplierPDF()
   }
    generateContent(supplier: Supplier, projects: Project[]): Content[] {
-    const content: Content[] = [];
-    content.push(
-      { text: `Supplier Name: ${supplier.name}`, style: 'heading' },
-      { text: `Description: ${supplier.description}`, style: 'paragraph' },
-      { text: `Rating: ${supplier.rating}`, style: 'paragraph' },
-      { text: 'Projects:', style: 'subHeading' }
-    );
-    projects.forEach(project => {
-      content.push(
-        { text: `${project.n_contract}:`, style: 'subHeading' },
-        { text: `Description: ${project.description}`, style: 'paragraph' },
-        { text: `Contract Number: ${project.n_contract}`, style: 'subSubHeading' },
-        { text: `Project Manager: ${project.projectManagerName}`, style: 'subSubHeading' },
-        { text: `Start Date: ${project.startsAt}`, style: 'subSubHeading' },
-        { text: `End Date: ${project.endsAt}`, style: 'subSubHeading' },
-        { text: `Evaluation Score: ${project.evaluation_score}`, style: 'subSubHeading' },
-      );
-    });
+     const formatDate = (date: string) => {
+       const parsedDate = Date.parse(date);
+       if (isNaN(parsedDate)) return date; // If parsing fails, return the original date string
+       const d = new Date(parsedDate);
+       const year = d.getFullYear();
+       const month = ('0' + (d.getMonth() + 1)).slice(-2);
+       const day = ('0' + d.getDate()).slice(-2);
+       return `${year}-${month}-${day}`;
+     };
+     const evalScore = (evalution_id:number,score:number)=> {
+       if (evalution_id==undefined) return 'N/A' ;
+       return score.toString()
+     };
 
+    const content: Content[] = [];
+     content.push(
+       {
+         text: supplier.name,
+         style: 'header',
+         alignment: 'center',
+         fontSize: 20, // Adjust the font size as needed
+         bold: true
+       },
+       {
+         text: supplier.description,
+         style: 'subHeader',
+         alignment: 'center',
+         margin: [0, 10, 0, 5] // Adjust the margins as needed
+       },
+       {
+         text: `Rating: ${supplier.rating.toPrecision(3)}`,
+         style: 'paragraph',
+         alignment: 'center',
+         bold:true ,
+         margin: [0, 5, 0, 10] // Adjust the margins as needed
+       },
+
+       // {
+       //   text: 'Projects:',
+       //   style: 'subHeading'
+       // }
+     );
+     // Projects table
+     const tableBody = [
+       [
+         { text: 'N° Contrat', style: 'tableHeader' },
+         { text: 'Chef De Projet', style: 'tableHeader' },
+         { text: 'Acheteur', style: 'tableHeader' },
+
+         { text: 'Date Début Du Projet', style: 'tableHeader' },
+         { text: 'Date Fin Du Projet', style: 'tableHeader' },
+         { text: 'Score', style: 'tableHeader' }
+       ]
+     ];
+
+     projects.forEach(project => {
+       tableBody.push([
+         { text: project.n_contract, style: 'tableData' },
+         { text: project.projectManagerName, style: 'tableData' },
+         { text: project.buyerName, style: 'tableData' },
+         { text: formatDate(project.startsAt.toString()), style: 'tableData' },
+         { text: formatDate(project.endsAt.toString()), style: 'tableData' },
+         { text: evalScore(project.evaluationId,project.evaluation_score), style: 'tableData' }
+       ]);
+     });
+
+     content.push({
+       table: {
+         headerRows: 1,
+         widths: ['*', '*', '*', '*', '*', '*'],
+         body: tableBody ,
+       },
+       style: 'table' ,
+       alignment: 'center',
+     });
+     var today = new Date();
+     var day = today.getDate();
+     var month = today.getMonth() + 1; // Months are zero-based, so add 1
+     var year = today.getFullYear();
+     content.push({
+       text: `Générer le : ${month + '/' + day + '/' + year}`,
+       style: 'paragraph',
+       alignment: 'center',
+       margin: [10, 15, 10, 10] ,  // Adjust the margins as needed
+
+     });
     return content;
   }
   convertEnum(sector: industrySector|undefined) {
@@ -139,7 +211,7 @@ export class SupplierDetailsComponent implements OnInit{
     if (sector?.toString()==='Sector7') return 'Transport et logistique'
     if (sector?.toString()==='Sector8') return 'Construction et immobilier'
     if (sector?.toString()==='Sector9') return 'Alimentation et agriculture'
-    if (sector?.toString()==='Sector10') return 'Alimentation et agriculture'
+    if (sector?.toString()==='Sector10') return 'Energie'
     return ""
   }
 

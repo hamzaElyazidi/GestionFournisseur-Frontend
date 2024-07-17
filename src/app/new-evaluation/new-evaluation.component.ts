@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {EvaluationService} from "../services/evaluation.service";
 import {QuestionService} from "../services/question.service";
 import {Evaluation} from "../model/evaluation.model";
 import {Score} from "../model/score.model";
 import {ToastrService} from "ngx-toastr";
+import {ProjectService} from "../services/project.service";
+import {Project} from "../model/project.model";
 
 @Component({
   selector: 'app-new-evaluation',
@@ -19,17 +21,22 @@ export class NewEvaluationComponent implements OnInit{
   sliderValue2: number = 50;
   sliderValue3: number = 50;
   sliderValue4: number = 50;
-  constructor(private router : Router ,private toastr: ToastrService ,private fb : FormBuilder , private route : ActivatedRoute ,private evaluationService : EvaluationService , private questionService : QuestionService ) {
+  sliderValue5: number = 50;
+
+  constructor(private projectService : ProjectService,private router : Router ,private toastr: ToastrService ,private fb : FormBuilder , private route : ActivatedRoute ,private evaluationService : EvaluationService , private questionService : QuestionService ) {
     this.projectId = this.route.snapshot.params['projectId'];
   }
   ngOnInit(): void {
     console.log(this.projectId)
     this.newEvaluationFormGroup = this.fb.group({
-      question1: this.fb.control(null),
-      question2: this.fb.control(null),
-      question3: this.fb.control(null),
-      question4: this.fb.control(null),
-    });
+      question1: this.fb.control(null,Validators.required),
+      question2: this.fb.control(null,Validators.required),
+      question3: this.fb.control(null,Validators.required),
+      question4: this.fb.control(null,Validators.required),
+      question5: this.fb.control(null,Validators.required),
+      startsAt : this.fb.control(null,Validators.required),
+      endsAt : this.fb.control(null,Validators.required),
+    }, { validator: this.dateRangeValidator('startsAt', 'endsAt') });
   }
   handleAddEvaluation()
   {
@@ -50,12 +57,38 @@ export class NewEvaluationComponent implements OnInit{
       question_id : 4 ,
       score : formValues['question4']==null?50:formValues['question4'],
     }
-    let scores : Score[] = [score1,score2,score3,score4]
+    let score5 : Score = {
+      question_id : 5,
+      score : formValues['question5']==null?50:formValues['question5'],
+    }
+    let scores : Score[] = [score1,score2,score3,score4,score5]
     let evaluation : Evaluation = {
       id:1,
       project_id:Number(this.projectId) ,
       scores : scores
     }
+    let project : Project = {
+      id: Number(this.projectId),
+      n_contract: '',
+      description: '',
+      startsAt: formValues['startsAt'],
+      endsAt: formValues['endsAt'],
+      supplierId: 0,
+      projectManagerId: 0,
+      projectManagerName: '',
+      buyerId: 0,
+      buyerName: '',
+      userId: '',
+      supplierName: '',
+      evaluationId: 0,
+      evaluation_score: 0,
+      evaluation_date: new Date(),
+      amount: 0
+    }
+    this.projectService.updateProjectDates(project).subscribe({
+      next : value => console.log("dates updated") ,
+      error : err =>  console.log(err)
+    });
     console.log('eval : '  +evaluation.scores?.at(0)?.score)
     this.evaluationService.createEvaluation(evaluation).subscribe({
       next:value => {
@@ -79,5 +112,19 @@ export class NewEvaluationComponent implements OnInit{
   }
   updateValue4(event: Event) {
     this.sliderValue4 = (event.target as HTMLInputElement).valueAsNumber;
+  }
+  updateValue5(event: Event) {
+    this.sliderValue5 = (event.target as HTMLInputElement).valueAsNumber;
+  }
+  dateRangeValidator(startKey: string, endKey: string): ValidatorFn {
+    return (group: AbstractControl): { [key: string]: any } | null => {
+      const start = group.get(startKey)?.value;
+      const end = group.get(endKey)?.value;
+
+      if (start && end && start >= end) {
+        return { dateRange: 'startsAt must be less than endsAt' };
+      }
+      return null;
+    };
   }
 }

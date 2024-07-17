@@ -7,7 +7,7 @@ export interface Supplier {
   sector: industrySector;
    website  : string;
    phone : string;
-   email  : string;
+   mail  : string;
 }
 export enum industrySector {
   Sector1 = 'Sector1',

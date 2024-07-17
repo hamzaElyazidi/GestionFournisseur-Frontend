@@ -1,14 +1,19 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SupplierService} from '../services/supplier.service'
-import {catchError, filter, map, Observable, throwError} from "rxjs";
+import {catchError, filter, map, Observable, Subscription, throwError} from "rxjs";
 import {industrySector, Supplier} from "../model/supplier.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
 import {SecurityService} from "../services/security.service";
-import {SupplierDetailsComponent} from "../supplier-details/supplier-details.component";
 import {ToastrService} from "ngx-toastr";
 import {ProjectService} from "../services/project.service";
-
+import {Project} from "../model/project.model";
+import { forkJoin } from 'rxjs';
+// import {WebsocketService} from "../services/websocket.service";
+// import {NotificationService} from "../services/notification.service";
+import {WebsocketService} from "../services/websocket.service";
+import {ManagerService} from "../services/manager.service";
+import {KeycloakService} from "keycloak-angular";
 @Component({
   selector: 'app-suppliers',
   templateUrl: './suppliers.component.html',
@@ -21,21 +26,32 @@ export class SuppliersComponent implements OnInit {
   filterByRatingFormGroup: FormGroup | undefined;
   totalNumberOfProjects!: number
   totalNumberOfSuppliers!: number
-
-
   averageRating!: number
 //
   pagedSuppliers: Supplier[] = [];
   pageSize: number = 5;
   currentPage: number = 0;
   maxPage: number = 0;
-
   industrySectorArray = Object.values(industrySector);
+  supp : tt[] = []
+  private userId: number = 123
+  private subscription: Subscription | undefined;
 
-  constructor(private toastr: ToastrService, private supplierService: SupplierService, private fb: FormBuilder, private router: Router, public secService: SecurityService, public projectService: ProjectService) {
+  constructor(private keycloakService : KeycloakService ,private managerService : ManagerService ,private websocketService : WebsocketService ,private toastr: ToastrService, private supplierService: SupplierService, private fb: FormBuilder, private router: Router, public secService: SecurityService, public projectService: ProjectService) {
   }
 
   ngOnInit(): void {
+    // this.managerService.getManagerByUserId('ed823902-e74f-49d7-837e-00cfcb0615e9')
+    //   .subscribe({
+    //     next:value => {
+    //       console.log('value : ' + value)
+    //       this.subscription = this.websocketService.connect(value.id??0).subscribe((event) => {
+    //         alert('New Project Event: ' + JSON.stringify(event));
+    //       });
+    //     },
+    //     error:err => {console.log('cant connect')}
+    //   })
+
     this.searchFormGroup = this.fb.group({
       keyword: this.fb.control("")
     })
@@ -185,18 +201,21 @@ export class SuppliersComponent implements OnInit {
     const endIndex = startIndex + this.pageSize;
     return data.slice(startIndex, endIndex);
   }
-
   //
   protected readonly filter = filter;
-
   protected readonly industrySector = industrySector;
   filterBySectorFormGroup: FormGroup | undefined;
   showElement: boolean = false;
+  showElement2: boolean = false;
 
   toggleElement() {
     this.showElement = !this.showElement;
   }
-
+  toggleElement2() {
+    this.showElement2 = !this.showElement2;
+    this.supp=[]
+    this.toggleElement()
+  }
   convertEnum(sector: industrySector | string) {
     if (sector.toString() === "") return ""
     if (sector.toString() === 'Sector1') return 'Industrie manufacturière'
@@ -211,24 +230,56 @@ export class SuppliersComponent implements OnInit {
     if (sector.toString() === 'Sector10') return 'Energie'
     return ""
   }
-
   handleFilterSuppliersBySector() {
-    // console.log(this.filterBySectorFormGroup?.value)
-    let sector: industrySector = this.filterBySectorFormGroup?.value.sector
-    console.log(sector)
-    // this.suppliers.subscribe((data: Supplier[]) => {
-    //   let filtredBySector = data.filter(supplier=>supplier.sector===sector)
-    //   filtredBySector.map(supplier2=>{
-    //     let projects = this.projectService.getProjectsOfGivenSupplier(supplier2.id);
-    //     projects.subscribe(data2=>{
-    //
-    //     })
-    //   })
-
-
-    //     this.pagedSuppliers = this.getPage(data, this.currentPage);
-    //     this.maxPage = Math.ceil(data.length / this.pageSize) - 1;
-    //   });
-    // }
+    this.showElement2=true
+    let sector: industrySector = this.filterBySectorFormGroup?.value.sector;
+    let startDate: Date = this.filterBySectorFormGroup?.value.dateDebut;
+    let endDate: Date = this.filterBySectorFormGroup?.value.dateFin;
+    console.log(sector);
+    this.suppliers.subscribe((data: Supplier[]) => {
+      let filteredBySector = data.filter(supplier => supplier.sector === sector);
+      let projectObservables = filteredBySector.map(supplier =>
+        this.projectService.getProjectsOfGivenSupplier(supplier.id)
+      );
+      forkJoin(projectObservables).subscribe(
+        (projectsData: Project[][]) => {
+          let projectsMap = new Map<number, Array<Project>>();
+          filteredBySector.forEach((supplier, index) => {
+            let filteredProjects = projectsData[index].filter(project =>
+              project.evaluation_date >= startDate && project.evaluation_date <= endDate
+            );
+            projectsMap.set(supplier.id, filteredProjects);
+          });
+          let supplierMap = new Map<number,number>
+          projectsMap.forEach((projects2 , supplier2)=> {
+            projects2 = projects2.filter(pr=>pr.evaluationId)
+            supplierMap.set(supplier2,projects2.reduce((sum, project) =>
+              sum + project.evaluation_score, 0
+            )/projects2.length)
+          })
+          supplierMap.forEach((score3 , supplier3)=>{
+            this.suppliers.subscribe(data=>{
+              let s = data.find(ss=>ss.id===supplier3)
+              if (s!=undefined){
+                let n : tt = {name:'',rating:0,rating_between_two_date:0}
+                n.name = s.name
+                n.rating  = s.rating
+                n.rating_between_two_date = score3
+                this.supp.push(n)
+              }
+            })
+            console.log(supplier3+ '   '  + score3)
+          })
+        },
+        error => {
+          console.error('Error fetching projects:', error);
+        }
+      );
+    });
   }
+}
+interface tt {
+  name : string ,
+  rating_between_two_date : number
+  rating : number
 }

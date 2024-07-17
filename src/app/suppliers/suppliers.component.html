@@ -91,48 +91,52 @@
   <title></title>
 </head>
 <ng-container *ngIf="suppliers | async as listSupplier ; else failureOrLoading">
-  <body id="page-top"
-        style="margin-right: 50px;margin-left: 50px;margin-bottom: -208px;padding-top: 0px;padding-bottom: 222px;">
+  <body id="page-top">
+<!--        style="margin-right: 50px;margin-left: 50px;margin-bottom: -208px;padding-top: 0px;padding-bottom: 222px;">-->
   <div id="wrapper">
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
         <div class="container py-2 py-xl-5" style="margin-top: 0px;">
           <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" style="padding-top: 0px;margin-top: 2px;">
-            <div class="col">
-              <div class="card">
-                <div class="card-body p-4  shadow border-start-info" style="background-color: whitesmoke">
-                  <h4 class="card-title">Nombre de Fournisseurs</h4>
-                  <h1>{{ totalNumberOfSuppliers }}</h1>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card">
-                <div class="card-body p-4 shadow border-start-info" style="background-color: whitesmoke">
-                  <h4 class="card-title">Nombre de Projets</h4>
-                  <h1>{{ totalNumberOfProjects }}</h1>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card">
-                <div class="card-body p-4 shadow border-start-info " style="background-color: aliceblue">
-                  <h4 class="card-title">Average Rating</h4>
-                  <h1
-                    [style.color]="averageRating >= 80 ? 'green' : averageRating >= 50 ? 'orange' : 'red'">{{ averageRating | number:'1.0-1'}}</h1>
-                </div>
-              </div>
-            </div>
+
+<!--            <div class="col">-->
+<!--              <div class="card">-->
+<!--                <div class="card-body p-4  shadow border-start-info" style="background-color: whitesmoke">-->
+<!--                  <h4 class="card-title">Nombre de Fournisseurs</h4>-->
+<!--                  <h1>{{ totalNumberOfSuppliers }}</h1>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="col">-->
+<!--              <div class="card">-->
+<!--                <div class="card-body p-4 shadow border-start-info" style="background-color: whitesmoke">-->
+<!--                  <h4 class="card-title">Nombre de Projets</h4>-->
+<!--                  <h1>{{ totalNumberOfProjects }}</h1>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="col">-->
+<!--              <div class="card">-->
+<!--                <div class="card-body p-4 shadow border-start-info " style="background-color: aliceblue">-->
+<!--                  <h4 class="card-title">Average Rating</h4>-->
+<!--                  <h1-->
+<!--                    [style.color]="averageRating >= 80 ? 'green' : averageRating >= 50 ? 'orange' : 'red'">{{ averageRating | number:'1.0-1'}}</h1>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
           </div>
         </div>
         <div class="container-fluid"
              style="padding-left: 50px;padding-right: 50px;padding-top: 0px;margin-top: 0px;margin-bottom: 50px;padding-bottom: 0px;">
-          <h3 class="text-dark mb-4" style="padding-bottom: 0px;"><span
-            style="color: rgb(78, 115, 223);">Fournisseurs</span></h3>
+<!--          <h3 class="text-dark mb-4" style="padding-bottom: 0px;"><span-->
+<!--            style="color: rgb(78, 115, 223);">Fournisseurs</span></h3>-->
+
           <div class="card shadow">
-            <div class="card-header py-3">
-              <p class="text-primary m-0 fw-bold">Informations des fournisseurs :</p>
-            </div>
+<!--            <div class="card-header py-3">-->
+<!--              <p class="text-primary m-0 fw-bold">Informations des fournisseurs :</p>-->
+<!--            </div>-->
             <div class="card-body" style="padding-right: 80px;padding-left: 80px;margin-right: 0px;">
               <div class="row">
                 <div class="col-md-6 col-lg-4">
@@ -142,7 +146,7 @@
                       <div class="input-group">
                         <input class="form-control form-control-sm" type="search" aria-controls="dataTable"
                                placeholder="Search" formControlName="keyword" />
-                        <button class="btn btn-primary py-0" type="submit">
+                        <button class="btn btn-primary py-0" type="submit" style="background-color: rgb(22,180,123)" >
                           <i class="bi bi-search"></i>
                         </button>
                       </div>
@@ -160,7 +164,7 @@
                       <div class="input-group">
                         <input class="form-control form-control-sm" type="search" aria-controls="dataTable"
                                placeholder="Min Rating" formControlName="minRating" />
-                        <button class="btn btn-primary py-0" type="submit">
+                        <button class="btn btn-primary py-0" type="submit" style="background-color: rgb(22,180,123)" >
                           <i class="bi bi-search"></i>
                         </button>
                       </div>
@@ -179,7 +183,7 @@
                     <th>Secteur d'activité </th>
                     <th style="padding-left: 0px;padding-right: 0px;">Nombre de projets</th>
                     <th>Rating</th>
-                    <th>Operations</th>
+                    <th  *ngIf="!secService.hasRoleIn(['USER']) && !secService.hasRoleIn(['BUYER']) && secService.hasRoleIn(['ADMIN'])">Operations</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -198,23 +202,23 @@
                       <div [style.color]="s.rating >= 80 ? 'green' : s.rating >= 50 ? 'orange' : 'red'">
                         <b>{{ s.rating | number:'1.0-1'}}</b></div>
                     </td>
-                    <td>
-                      <i *ngIf="secService.hasRoleIn(['USER']) && !secService.hasRoleIn(['ADMIN'])" class="link-text2" (click)="handleAddProjectToSupplier(s)">Ajouter Un Projet</i>
+                    <td *ngIf="!secService.hasRoleIn(['USER']) && !secService.hasRoleIn(['BUYER']) && secService.hasRoleIn(['ADMIN'])" class="link-text2">
+                      <i *ngIf="!secService.hasRoleIn(['USER']) && !secService.hasRoleIn(['BUYER']) && secService.hasRoleIn(['ADMIN'])" class="link-text2 m-2" (click)="handleDeleteSupplier(s)">Supprimer</i>
                       <!--                    <i class="bi bi-arrow-right-square m-2" (click)="handleGetProjectsOfSupplier(s)"></i>-->
-                      <i *ngIf="secService.hasRoleIn(['ADMIN'])" class="bi bi-pen m-2"
-                         (click)="handleEditSupplier(s)"></i>
-                      <i *ngIf="secService.hasRoleIn(['ADMIN'])" class="bi bi-trash m-2"
-                         (click)="handleDeleteSupplier(s)"></i>
+<!--                      <i *ngIf="secService.hasRoleIn(['USER']) && !secService.hasRoleIn(['ADMIN'])" class="link-text2" (click)="handleAddProjectToSupplier(s)">Ajouter Un Projet</i>-->
+                      <i *ngIf="!secService.hasRoleIn(['USER']) && !secService.hasRoleIn(['BUYER']) && secService.hasRoleIn(['ADMIN'])" class="link-text2 m-2" (click)="handleEditSupplier(s)">Modifier</i>
+
+<!--                      <i *ngIf="secService.hasRoleIn(['ADMIN'])" class="bi bi-pen m-2"-->
+<!--                         (click)="handleEditSupplier(s)"></i>-->
                     </td>
                   </tr>
                   </tbody>
-                  <tfoot>
-                  <tr *ngIf="secService.hasRoleIn(['ADMIN'])">
-                    <td class="centered">
-                      <button class="button_plus" routerLink="/new-supplier"></button>
-                    </td>
-                  </tr>
-                  </tfoot>
+
+                  <div *ngIf="secService.hasRoleIn(['ADMIN'])">
+                    <div class="centered">
+                      <button class="rounded-button mt-3" routerLink="/new-supplier">Ajouter un fournisseur</button>
+                    </div>
+                  </div>
                 </table>
               </div>
               <div class="row">
@@ -228,7 +232,7 @@
                         <li class="page-item disabled"><a class="page-link" aria-label="Previous"><span
                           aria-hidden="true">«</span></a></li>
                       </button>
-                      <li class="page-item active"><a class="page-link">{{ currentPage + 1 }} of {{ maxPage + 1 }}</a>
+                      <li class="page-item active"><a class="page-link" style="background-color: rgb(22,180,123)">{{ currentPage + 1 }} of {{ maxPage + 1 }}</a>
                       </li>
                       <button class="button-like" [disabled]="currentPage >= maxPage" (click)="nextPage()">
                         <li class="page-item disabled"><a class="page-link" aria-label="Previous"><span
@@ -259,7 +263,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row mt-3 w-25"><button class="btn btn-primary" (click)="toggleElement()" >Proposer moi un fournisseur</button></div>
+<!--                <div class="row mt-3 w-25"><button class="btn btn-primary" (click)="toggleElement()" style="background-color: rgb(22,180,123)" >Filter & Sort Suppliers </button></div>-->
                 <div *ngIf="showElement && filterBySectorFormGroup">
                   <form [formGroup]="filterBySectorFormGroup" (ngSubmit)="handleFilterSuppliersBySector()">
 <!--                    <div class="input-group">-->
@@ -292,9 +296,33 @@
                                  formControlName="dateFin" />
                         </div>
                       </div>
-                      <button class="btn btn-primary" type="submit">
-                        <i class="bi bi-search"></i>
-                      </button>
+                      <div class="row">
+                        <div class="col">
+                          <button class="btn btn-primary w-25" type="submit">
+                            <i class="bi bi-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div *ngIf="showElement2" class="m-3">
+                        <table class="table table-bordered table-hover">
+                          <thead class="thead-dark">
+                          <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Rating (From {{this.filterBySectorFormGroup?.value['dateDebut']}} To {{this.filterBySectorFormGroup?.value['dateFin']}})</th>
+                            <th scope="col">Rating (Général)</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let ss of supp">
+                            <td>{{ss.name}}</td>
+                            <td>{{ss.rating_between_two_date}}</td>
+                            <td>{{ss.rating}}</td>
+                          </tbody>
+                        </table>
+                        <div *ngIf="this.showElement2" class="col">
+                          <p class="link-text2" (click)="toggleElement2()">Reset</p>
+                        </div>
+                      </div>
                     </div>
                   </form>
                 </div>
@@ -304,7 +332,6 @@
         </div>
       </div>
     </div>
-    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
   </div>
   </body>
 </ng-container>

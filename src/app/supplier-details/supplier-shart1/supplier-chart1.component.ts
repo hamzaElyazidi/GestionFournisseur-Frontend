@@ -3,7 +3,7 @@ import {SupplierService} from "../../services/supplier.service";
 import {ProjectService} from "../../services/project.service";
 import { CommonModule } from '@angular/common';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
-import {RouterOutlet} from "@angular/router";
+import {Router, RouterOutlet} from "@angular/router";
 import {Project} from "../../model/project.model";
 
 @Component({
@@ -19,18 +19,17 @@ export class SupplierChart1Component implements OnInit{
   projects!:Project[]
   projectsLoaded: boolean = false;
 
-  constructor(private supplierService : SupplierService , private projectService : ProjectService) {
+  constructor(private router : Router,private supplierService : SupplierService , private projectService : ProjectService) {
   }
   async ngOnInit(){
     await this.loadProjects();
-     let constructedDataPoints: { x: Date, y: number }[] = []
+     let constructedDataPoints: { x: Date, y: number , projectId:number }[] = []
      for (const project of this.projects) {
        let eval_date = new Date(project.startsAt) ;
        if (project.evaluation_score != null)
-       constructedDataPoints.push({x:eval_date,y:project.evaluation_score})
+       constructedDataPoints.push({x:eval_date,y:project.evaluation_score,projectId:project.id})
      }
      this.updateChartData(constructedDataPoints)
-
   }
     updateChartData(newDataPoints: { x: Date, y: number }[]) {
     this.chartOptions.data[0].dataPoints = newDataPoints;
@@ -42,6 +41,9 @@ export class SupplierChart1Component implements OnInit{
     theme: "light2",
     animationEnabled: true,
     zoomEnabled: true,
+    exportEnabled: true,
+
+
     title: {
       text: "Rating over time"
     },
@@ -57,7 +59,12 @@ export class SupplierChart1Component implements OnInit{
       xValueFormatString: "YYYY" ,
       yValueFormatString: "#,###.## '%'" ,
       dataPoints: [
-      ]
+      ],
+      click:(e:any)=>{
+       console.log(e.dataPoint)
+        console.log("CLICKED")
+        this.router.navigateByUrl("/project-details/"+e.dataPoint.projectId)
+      }
     }]
 }
   async loadProjects() {

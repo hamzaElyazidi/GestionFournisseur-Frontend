@@ -15,22 +15,25 @@ import {MyProjectsComponent} from "./my-projects/my-projects.component";
 import {CreateUSerComponent} from "./create-user/create-user.component";
 import {UsersComponent} from "./users/users.component";
 import {ProjectDetailsComponent} from "./project-details/project-details.component";
+import {EditprojectComponent} from "./editproject/editproject.component";
+import {SupplierDetailsDialogComponent} from "./supplier-details-dialog/supplier-details-dialog.component";
 const routes: Routes = [
- // {path: '', component: AppComponent,canActivate:[AuthGuard],data:{roles:['USER']} },
-  {path : "suppliers" , component : SuppliersComponent ,canActivate:[AuthGuard],data:{roles:['BUYER' , 'USER']}} ,
+  {path: "", component: HommeComponent },
+  {path: "home", component: SupplierDetailsDialogComponent,canActivate:[AuthGuard],data:{roles:['USER' , 'BUYER' , 'ADMIN']} },
+  {path : "suppliers" , component : SuppliersComponent ,canActivate:[AuthGuard],data:{roles:['BUYER' , 'USER' , 'ADMIN']}} ,
   {path : "new-supplier" , component : NewSupplierComponent } ,
   {path : "supplier-details/:supplierId" , component : SupplierDetailsComponent },
   {path : "editSupplier/:id" , component : EditSupplierComponent } ,
-  {path : "projects/:supplierId" , component : ProjectsComponent,canActivate:[AuthGuard],data:{roles:['USER']} } ,
+  {path : "editProject/:id" , component : EditprojectComponent } ,
+  {path : "projects/:supplierId" , component : ProjectsComponent,canActivate:[AuthGuard],data:{roles:['USER' , 'BUYER' , 'ADMIN']} } ,
   {path : "evaluations/:evaluationId" , component : EvaluationsComponent } ,
   // {path : "new-project/:supplierId" , component : NewProjectComponent } ,
   {path : "new-project" , component : NewProjectComponent } ,
   {path : "evaluations/new-evaluation/:projectId" , component : NewEvaluationComponent },
-  {path : "my-projects" , component : MyProjectsComponent },
+  {path : "my-projects" , component : MyProjectsComponent ,canActivate:[AuthGuard],},
   {path : "create-user" , component : CreateUSerComponent },
   {path : "users" , component : UsersComponent},
   {path : "project-details/:projectId" , component : ProjectDetailsComponent},
-
 
 ];
 

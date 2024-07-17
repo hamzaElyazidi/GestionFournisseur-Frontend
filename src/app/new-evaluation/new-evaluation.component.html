@@ -1,39 +1,124 @@
-<p>new-evaluation works!</p>
-<div class="container">
-  <div class="card col-md-6 offset-3 mt-2">
-    <div class="card-header">Add A Project</div>
-    <div *ngIf="newEvaluationFormGroup" class="card-body">
-      <form [formGroup]="newEvaluationFormGroup" (ngSubmit)="handleAddEvaluation()"  >
-        <div class="mb-3">
-          <label class="form-label">Performance technique : {{ sliderValue }} %</label>
-<!--          <input type="number" formControlName="question1" class="form-control">-->
-          <div class="slidecontainer">
-            <input id="myRange" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question1" (input)="updateValue($event)" />
-          </div>
+<!--<p>new-evaluation works!</p>-->
+<!--<div class="container">-->
+<!--  <div class="card col-md-6 offset-3 mt-2">-->
+<!--    <div class="card-header">Add A Project</div>-->
+<!--    <div *ngIf="newEvaluationFormGroup" class="card-body">-->
+<!--      <form [formGroup]="newEvaluationFormGroup" (ngSubmit)="handleAddEvaluation()"  >-->
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">Performance technique : {{ sliderValue }} %</label>-->
+<!--&lt;!&ndash;          <input type="number" formControlName="question1" class="form-control">&ndash;&gt;-->
+<!--          <div class="slidecontainer">-->
+<!--            <input id="myRange" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question1" (input)="updateValue($event)" />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">Maitrise des couts : {{ sliderValue2 }} % </label>-->
+<!--&lt;!&ndash;          <input type="number" formControlName="question2" class="form-control">&ndash;&gt;-->
+<!--          <div class="slidecontainer">-->
+<!--            <input id="myRange2" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question2" (input)="updateValue2($event)" />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">Respect des delais : {{ sliderValue3 }} %</label>-->
+<!--&lt;!&ndash;          <input type="number" formControlName="question3" class="form-control">&ndash;&gt;-->
+<!--          <div class="slidecontainer">-->
+<!--            <input id="myRange3" class="form-range slider"  type="range" min="0" max="100" step="5" formControlName="question3" (input)="updateValue3($event)" />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">Resolution des problemes : {{ sliderValue4 }} %</label>-->
+<!--&lt;!&ndash;          <input type="number" formControlName="question4" class="form-control">&ndash;&gt;-->
+<!--          <div class="slidecontainer">-->
+<!--            <input id="myRange4" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question4" (input)="updateValue4($event)" />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--          <label class="form-label">Hygiène securité environnement : {{ sliderValue5 }} %</label>-->
+<!--          &lt;!&ndash;          <input type="number" formControlName="question4" class="form-control">&ndash;&gt;-->
+<!--          <div class="slidecontainer">-->
+<!--            <input id="myRange5" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question5" (input)="updateValue5($event)" />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col">-->
+<!--          <div class="mb-3"><label class="form-label"><strong>Date Debut Du Projet</strong></label><input class="form-control" type="date" formControlName="startsAt"/></div>-->
+<!--        </div>-->
+<!--        <div class="col">-->
+<!--          <div class="mb-3"><label class="form-label"><strong>Date Fin Du Projet</strong></label><input class="form-control" type="date" formControlName="endsAt"/></div>-->
+<!--        </div>-->
+
+<!--        <button [disabled]="!newEvaluationFormGroup.valid"  class="btn btn-info">Save</button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<div class="demo-page">
+  <main class="demo-page-content">
+    <section >
+      <div class="href-target" id="input-types"></div>
+      <h1>
+        <svg xmlns="http://www.w3.org/2000/svg" style="transform: rotate(90deg)" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-columns">
+          <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18" />
+        </svg>
+        Veuillez évaluer le projet      </h1>
+      <form [formGroup]="newEvaluationFormGroup" (ngSubmit)="handleAddEvaluation()">
+        <div class="nice-form-group">
+          <label>Performance technique : <strong>{{ sliderValue }} % </strong> </label>
+                    <div class="slidecontainer">
+                      <input id="myRange" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question1" (input)="updateValue($event)" />
+                    </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Maitrise des couts : {{ sliderValue2 }} % </label>
-<!--          <input type="number" formControlName="question2" class="form-control">-->
-          <div class="slidecontainer">
-            <input id="myRange2" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question2" (input)="updateValue2($event)" />
-          </div>
+        <div class="nice-form-group">
+          <label>Maitrise des couts : <strong>{{ sliderValue2 }} % </strong> </label>
+                  <div class="slidecontainer">
+             <input id="myRange2" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question2" (input)="updateValue2($event)" />
+                 </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Respect des delais : {{ sliderValue3 }} %</label>
-<!--          <input type="number" formControlName="question3" class="form-control">-->
-          <div class="slidecontainer">
-            <input id="myRange3" class="form-range slider"  type="range" min="0" max="100" step="5" formControlName="question3" (input)="updateValue3($event)" />
-          </div>
+        <div class="nice-form-group">
+          <label>Respect des delais : <strong>{{ sliderValue3 }} % </strong> </label>
+                    <div class="slidecontainer">
+                      <input id="myRange3" class="form-range slider"  type="range" min="0" max="100" step="5" formControlName="question3" (input)="updateValue3($event)" />
+                    </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">resolution des problemes : {{ sliderValue4 }} %</label>
-<!--          <input type="number" formControlName="question4" class="form-control">-->
-          <div class="slidecontainer">
-            <input id="myRange4" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question4" (input)="updateValue4($event)" />
-          </div>
+        <div class="nice-form-group">
+          <label>Resolution des problemes : <strong>{{ sliderValue4 }} % </strong> </label>
+                    <div class="slidecontainer">
+                      <input id="myRange4" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question4" (input)="updateValue4($event)" />
+                    </div>
         </div>
-        <button [disabled]="!newEvaluationFormGroup.valid"  class="btn btn-info">Save</button>
+
+        <div class="nice-form-group">
+          <label>Hygiène securité environnement : <strong>{{ sliderValue5 }} % </strong> </label>
+                    <div class="slidecontainer">
+                      <input id="myRange5" class="form-range slider" type="range" min="0" max="100"  step="5" formControlName="question5" (input)="updateValue5($event)" />
+                    </div>
+        </div>
+
+        <div class="nice-form-group">
+          <label>Date Début Du Projet <strong>(Date Définitif)</strong></label>
+          <input type="date" placeholder="Date Début Du Projet" formControlName="startsAt" required/>
+        </div>
+
+
+        <div class="nice-form-group">
+          <label>Date Fin Du Projet <strong>(Date Définitif)</strong></label>
+          <input type="date" placeholder="Date Début Du Projet" formControlName="endsAt" required/>
+        </div>
+        <details>
+          <summary>
+            <button [disabled]="!newEvaluationFormGroup"  class="to-reset" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              Enregistrer
+            </button>
+          </summary>
+        </details>
       </form>
-    </div>
-  </div>
+    </section>
+  </main>
 </div>
+

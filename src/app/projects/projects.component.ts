@@ -86,6 +86,7 @@ export class ProjectsComponent implements OnInit {
   }
 
 
+
   handleDeleteEvaluation(p: Project) {
     this.projectService.deleteEvaluation(p.id).subscribe({
         next:resp=>{

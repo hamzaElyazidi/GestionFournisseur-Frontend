@@ -1,22 +1,105 @@
-<p>edit-supplier works!</p>
-<input value="{{EditSupplierFormGroup.value | json}}" type="hidden">
+<!--<p>edit-supplier works!</p>-->
+<!--<input value="{{EditSupplierFormGroup.value | json}}" type="hidden">-->
 
-<div class="container">
-  <div class="card col-md-6 offset-3 mt-2">
-    <div class="card-header">Edit A Supplier</div>
+<!--<div class="container">-->
+<!--  <div class="card col-md-6 offset-3 mt-2">-->
+<!--    <div class="card-header">Edit A Supplier</div>-->
 
-    <div class="card-body">
-      <form [formGroup]="EditSupplierFormGroup" (ngSubmit)="handleUpdateSupplier()"  >
-        <div class="mb-3">
-          <label class="form-label">Name : </label>
-          <input type="text" formControlName="name" class="form-control">
+<!--    <div class="card-body">-->
+<!--      <form [formGroup]="EditSupplierFormGroup" (ngSubmit)="handleUpdateSupplier()"  >-->
+<!--        <div class="row w-50">-->
+<!--          <div>-->
+<!--            <div class="mb-3"><label class="form-label"><strong>Nom</strong></label><input class="form-control" type="text" formControlName="name"/></div>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <div class="mb-3"><label class="form-label"><strong>Phone number</strong></label><input class="form-control" type="text" formControlName="phone"/></div>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <div class="mb-3"><label class="form-label"><strong>Website</strong></label><input class="form-control" type="text" formControlName="website"/></div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row w-50" >-->
+<!--          <div class="">-->
+<!--            <div class="mb-3"><label class="form-label"><strong>E-mail</strong></label><input class="form-control" type="text" formControlName="mail"/></div>-->
+<!--          </div>-->
+<!--          <div class="">-->
+<!--            <label for="category"><strong>Secteur d'activité</strong> </label>-->
+<!--            <select class="form-control" id="category" formControlName="sector">&ndash;&gt;-->
+<!--              <option *ngFor="let s of industrySectorArray" [value]="s">{{ convertEnum(s) }}</option>-->
+<!--            </select>-->
+<!--          </div>-->
+
+<!--          <div class="">-->
+<!--            <div class="mb-3"><label class="form-label"><strong>Description</strong></label><textarea class="form-control" formControlName="description"></textarea></div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="mb-3"></div>-->
+<!--        <button [disabled]="!EditSupplierFormGroup.valid"  class="btn btn-info">Save</button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div class="demo-page">
+  <main class="demo-page-content" *ngIf="EditSupplierFormGroup">
+    <section >
+      <div class="href-target" id="input-types"></div>
+      <h1>
+        <svg xmlns="http://www.w3.org/2000/svg" style="transform: rotate(90deg)" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-columns">
+          <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18" />
+        </svg>
+        Veuillez saisir les informations du fournisseur      </h1>
+      <form [formGroup]="EditSupplierFormGroup" (ngSubmit)="handleUpdateSupplier()">
+        <div class="nice-form-group">
+          <label>Nom</label>
+          <input required type="text" placeholder="Company name"  formControlName="nom" />
         </div>
-        <div class="mb-3">
-          <label class="form-label">Description : </label>
-          <input type="text" formControlName="description" class="form-control">
+
+        <div class="nice-form-group">
+          <label>Numéro de téléphone</label>
+          <input required type="tel" placeholder="0611223344"  formControlName="phone" class="icon-left" />
         </div>
-        <button [disabled]="!EditSupplierFormGroup.valid"  class="btn btn-info">Save</button>
+
+
+        <div class="nice-form-group">
+          <label>E-mail</label>
+          <input type="email" placeholder="company@mail.com" formControlName="mail" required class="icon-left"/>
+        </div>
+
+        <div class="nice-form-group">
+          <label>Site web</label>
+          <input type="url" placeholder="www.google.com" formControlName="website" required class="icon-left"/>
+        </div>
+
+
+
+
+        <div class="nice-form-group">
+          <label>Secteur d'activité</label>
+          <select class="form-control" id="category" formControlName="sector">
+            <option *ngFor="let s of industrySectorArray" [value]="s">{{ convertEnum(s) }}</option>
+          </select>
+        </div>
+
+        <div class="nice-form-group">
+          <label>Description</label>
+          <textarea rows="7" placeholder="Description" formControlName="description" required></textarea>
+        </div>
+        <details>
+          <summary>
+            <button [disabled]="!EditSupplierFormGroup"  class="rounded-button" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              Enregistrer
+            </button>
+          </summary>
+        </details>
       </form>
-    </div>
-  </div>
+    </section>
+  </main>
 </div>
+
+

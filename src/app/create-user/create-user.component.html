@@ -1,35 +1,65 @@
-<p>new-evaluation works!</p>
-<div class="container">
-  <div class="card col-md-6 offset-3 mt-2">
-    <div class="card-header">Add A User</div>
-    <div class="card-body">
-      <form [formGroup]="newUserFormGroup" (ngSubmit)="handleCreateUser()"  >
-        <div class="mb-3">
-          <label class="form-label">nom d'utilisateur : </label>
-          <input type="text" formControlName="username" class="form-control">
+
+<div class="demo-page">
+  <main class="demo-page-content">
+    <section >
+      <div class="href-target" id="input-types"></div>
+      <h1>
+        <svg xmlns="http://www.w3.org/2000/svg" style="transform: rotate(90deg)" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-columns">
+          <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18" />
+        </svg>
+        Veuillez saisir les informations d'utilisateur      </h1>
+      <form [formGroup]="newUserFormGroup" (ngSubmit)="handleCreateUser()">
+        <div class="nice-form-group">
+          <label>Nom d'utilisateur</label>
+          <input required type="text" placeholder="username" value=""  formControlName="username" />
         </div>
-        <div class="mb-3">
-          <label class="form-label">mot de passe : </label>
-          <input type="password" formControlName="password" class="form-control">
+
+        <div class="nice-form-group">
+          <label>Mot de passe </label>
+          <input required type="password" placeholder="password" value=""  formControlName="password" />
         </div>
-        <div class="mb-3">
-          <label class="form-label">prenom  : </label>
-          <input type="text" formControlName="first_name" class="form-control">
+
+        <div class="nice-form-group">
+          <label>Prénom </label>
+          <input required type="text" placeholder="Prénom" value=""  formControlName="first_name" />
         </div>
-        <div class="mb-3">
-          <label class="form-label">nom : </label>
-          <input type="text" formControlName="last_name" class="form-control">
+
+        <div class="nice-form-group">
+          <label>Nom </label>
+          <input required type="text" placeholder="Nom" value=""  formControlName="last_name" />
         </div>
-        <div class="mb-3">
-          <label class="form-label">poste : </label>
-          <input type="text" formControlName="job_title" class="form-control">
+
+        <div class="nice-form-group">
+          <label>Poste </label>
+          <input required type="text" placeholder="Poste" value=""  formControlName="job_title" />
         </div>
-        <div class="mb-3">
-          <label class="form-label">email : </label>
-          <input type="text" formControlName="mail" class="form-control">
+
+        <div class="nice-form-group">
+          <label>E-mail </label>
+          <input required type="text" placeholder="E-mail" value=""  formControlName="mail" />
         </div>
-        <button [disabled]="!newUserFormGroup.valid"  class="btn btn-info">Save</button>
+
+        <div class="nice-form-group">
+          <label>Role </label>
+          <select class="form-control"  formControlName="role">-->
+            <option *ngFor="let s of Array.of('Acheteur' , 'Chef de Projet')" [value]="s">{{ s }}</option>
+          </select>
+<!--          <input required type="text" placeholder="Poste" value=""  formControlName="job_title" />-->
+        </div>
+
+        <details>
+          <summary>
+            <button [disabled]="!newUserFormGroup"  class="rounded-button" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              Enregistrer
+            </button>
+          </summary>
+        </details>
       </form>
-    </div>
-  </div>
+    </section>
+  </main>
 </div>

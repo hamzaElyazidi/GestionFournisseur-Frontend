@@ -1,0 +1,8 @@
+body{
+  height: 100%; /* Ensure the body and html take the full height of the viewport */
+  margin: 0; /* Remove default margin */
+  background-size: cover; /* Make the image cover the whole container */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-position: center; /* Center the image */
+  background-image: url("https://static.lematin.ma/files/lematin/images/articles/2023/03/73f652999d5d05a4efc071d75aa1252c.jpg");
+}

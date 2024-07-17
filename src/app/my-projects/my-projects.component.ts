@@ -38,6 +38,7 @@ export class MyProjectsComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    // if (this.keycloakService.getKeycloakInstance().hasRealmRole('ADMIN')) this.router.navigateByUrl("/users")
     this.searchFormGroup = this.fb.group({
       keyword: this.fb.control("")
     })    // this.projects= this.projectService.getProjectsByUserId(this.keycloakService.getKeycloakInstance()?.idTokenParsed?.sub||'').pipe(
@@ -77,6 +78,9 @@ export class MyProjectsComponent implements OnInit{
     // })
 
   }
+  handleAddEvaluationToProject(p: Project) {
+    this.router.navigateByUrl("/evaluations/new-evaluation/"+p.id)
+  }
 
 
   previousPage(): void {
@@ -111,16 +115,18 @@ export class MyProjectsComponent implements OnInit{
   }
 
   handleDeleteEvaluation(p: Project) {
-    this.projectService.deleteEvaluation(p.id).subscribe({
-        next:resp=>{
-          this.toastr.warning('Evaluation deleted successfully!', 'Success')
-          this.loadProjects();
-        },
-        error:err => {console.log(err)}
-      }
-    )
+    const isConfirmed = window.confirm("Are you sure you want to delete this Evaluation? This action is irreversible.");
+    if (isConfirmed) {
+      this.projectService.deleteEvaluation(p.id).subscribe({
+          next:resp=>{
+            this.toastr.warning('Evaluation deleted successfully!', 'Success')
+            this.loadProjects();
+          },
+          error:err => {console.log(err)}
+        }
+      )
+    }
   }
-
   handleDeleteProject(p: Project) {
     const isConfirmed = window.confirm("Are you sure you want to delete this project? This action is irreversible.");
     if (isConfirmed){this.projectService.deleteProject(p.id).subscribe({
@@ -132,5 +138,10 @@ export class MyProjectsComponent implements OnInit{
       }
     )
   }
+  }
+
+  handleEditProject(p: Project) {
+    this.router.navigateByUrl("/editProject/" + p.id)
+
   }
 }

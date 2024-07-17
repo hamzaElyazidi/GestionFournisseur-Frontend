@@ -3,11 +3,16 @@ import {Observable} from "rxjs";
 import {Project} from "../model/project.model";
 import {HttpClient} from "@angular/common/http";
 import {Evaluation} from "../model/evaluation.model";
+import {Supplier} from "../model/supplier.model";
+import {ProjectEvent} from "./websocket.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
+
+
+
 
 
 
@@ -30,8 +35,15 @@ export class ProjectService {
   public saveProject(project : Project) : Observable<Project>{
     return  this.http.post<Project>(this.backendHost+"/projects",project);
   }
-   public deleteProject(id:number) {
+  public getProjectEventsByManagerId(managerId : number) {
+    return this.http.get<Array<ProjectEvent>>(this.backendHost+"/projectEvents/"+managerId) ;
+  }
+
+  public deleteProject(id:number) {
     return this.http.delete(this.backendHost+"/projects/"+id);
+  }
+  deleteProjectEvent(id: number) {
+    return this.http.delete(this.backendHost+"/projectEvents/"+id);
   }
   getAllProjects():Observable<Array<Project>> {
     return this.http.get<Array<Project>>(this.backendHost+"/projects");
@@ -42,6 +54,10 @@ export class ProjectService {
   getProjectByid(id: number) {
     return this.http.get<Project>(this.backendHost+"/projects/"+id)
   }
-
-
+  updateProjectDates(project: Project) {
+   return this.http.put(this.backendHost+"/projects/update_dates",project)
+  }
+  updateProject(project: Project): Observable<Project> {
+    return this.http.put<Project>(this.backendHost+"/projects",project)
+  }
 }
